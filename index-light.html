@@ -279,7 +279,7 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        copper: '#a0715c',
+        copper: '#008CAF',
         dark: '#fafafa',
       },
       fontFamily: {
@@ -332,23 +332,29 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
 h1, h2, h3, h4, h5, h6 { color: #1a1a1a; }
 p { color: #333; }
 
-/* .text-white → dark, EXCEPT inside buttons/links with colored bg */
-.text-white { color: #1a1a1a !important; }
-button.text-white, a.text-white,
-button .text-white, a .text-white,
-[class*="bg-copper"] > .text-white,
-.bg-copper.text-white,
-.bg-blue-600.text-white, .bg-blue-500.text-white,
-.bg-green-600.text-white, .bg-green-500.text-white,
-.bg-purple-600.text-white, .bg-purple-500.text-white,
-button[class*="bg-copper"], button[class*="bg-blue"], button[class*="bg-green"], button[class*="bg-purple"],
-a[class*="bg-copper"], a[class*="bg-blue"] {
+/* .text-white → dark for content text */
+section .text-white,
+div .text-white,
+span.text-white,
+p.text-white,
+h1.text-white, h2.text-white, h3.text-white, h4.text-white,
+li .text-white,
+td .text-white {
+  color: #1a1a1a !important;
+}
+/* Keep white text on colored buttons/links */
+button.text-white,
+a.text-white {
   color: #fff !important;
+}
+/* Keep white text inside colored-bg spans in buttons */
+button span, a span.ml-2 {
+  color: inherit !important;
 }
 
 /* Form inputs */
 input, textarea, select { color: #1a1a1a !important; }
-input:focus, textarea:focus { border-color: #a0715c !important; }
+input:focus, textarea:focus { border-color: #008CAF !important; }
 input::placeholder, textarea::placeholder { color: #aaa !important; }
 
 /* Scrollbar track on forms */
