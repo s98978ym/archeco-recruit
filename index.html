@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCHECO æ¡ç¨ãµã¤ã</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        copper: '#c9917a',
+        dark: '#0a0a0a',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        heading: ['"Space Grotesk"', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
+
+/* Concrete texture backgrounds */
+.bg-concrete {
+  background: linear-gradient(135deg, #1a1a1a 0%, #111 25%, #1c1c1c 50%, #0f0f0f 75%, #1a1a1a 100%);
+  background-size: 400px 400px;
+}
+.bg-concrete-2 {
+  background: linear-gradient(160deg, #161616 0%, #0e0e0e 30%, #191919 60%, #0d0d0d 100%);
+}
+.bg-overlay {
+  background: linear-gradient(135deg, rgba(10,10,10,0.92) 0%, rgba(20,20,20,0.95) 50%, rgba(10,10,10,0.92) 100%);
+}
+
+/* Animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.active {
+  opacity: 1; pointer-events: auto;
+}
+.modal-content {
+  background: #1a1a1a; border: 1px solid #333; border-radius: 12px;
+  max-width: 560px; width: 90%; max-height: 90vh; overflow-y: auto;
+  transform: scale(0.95); transition: transform 0.3s ease;
+}
+.modal-overlay.active .modal-content {
+  transform: scale(1);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- Section 0: Hidden spacer -->
+<section class="h-0"></section>
+
+<!-- Section 1: Hero -->
+<section id="hero" class="min-h-screen flex items-center justify-center bg-concrete relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40"></div>
+  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center fade-in">
+    <div class="inline-flex items-center mb-8">
+      <span class="w-1 h-6 bg-copper mr-3 inline-block"></span>
+      <span class="text-sm tracking-[0.3em] text-gray-400 uppercase">Recruitment Message</span>
+    </div>
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8">
+      ARCHECOã¯<br>ããªãã«ã¨ã£ã¦<br><span class="text-copper">è¯ãè·å ´ã§ã¯ãªã</span><br>ããããã¾ãã
+    </h1>
+    <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+      ç§ãã¡ã¯ãæç¤ºãå¾ã¤äººã§ã¯ãªããèªãèãåãäººãæ±ãã¦ãã¾ãã<br>
+      å¤±æãæããææ¦ããæ³¥è­ãå®è¡ã§ããäººãæ±ãã¦ãã¾ãã
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#ceo-message" class="inline-flex items-center justify-center px-8 py-4 bg-gray-800 hover:bg-gray-700 rounded-lg text-white font-medium transition">ç§ãã¡ã«ã¤ãã¦ç¥ã <span class="ml-2">&rarr;</span></a>
+      <a href="#jobs" class="inline-flex items-center justify-center px-8 py-4 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition">ã¨ã³ããªã¼ãã</a>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: ä»£è¡¨ã¡ãã»ã¼ã¸ -->
+<section id="ceo-message" class="bg-concrete-2 py-24">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="fade-in">
+      <div class="flex items-center mb-12">
+        <span class="w-1 h-10 bg-copper mr-4 inline-block"></span>
+        <h2 class="text-3xl md:text-4xl font-bold">ä»£è¡¨ã¡ãã»ã¼ã¸</h2>
+      </div>
+
+      <div class="space-y-8 text-gray-300 leading-relaxed text-base md:text-lg">
+        <p>ç§ãã¡ARCHECOã¯ã<span class="text-copper font-bold">ãHUMBLE ROOTS, MASSIVE SPARKS.ã</span>ã¨ãããã¸ã§ã³ãæ²ãã¦ãã¾ããæ±äº¬ã®ä¸çºãããä¸çãé©ããããããªã¤ã³ãã¯ããçã¿åºãããããç§ãã¡ã®å­å¨æç¾©ã§ããå¤§ä¼æ¥­ã®çæ¿ãæ½¤æ²¢ãªãªã½ã¼ã¹ããªãã¦ããç¥æµã¨æç±ã¨å®è¡åã§åè² ã§ããã¨ä¿¡ãã¦ãã¾ãã</p>
+
+        <p>æ¡ç¨ã¯ãä¸ç·ã«æ°ããä¾¡å¤ãçã¿åºãã¦ããä»²éæ¢ãã§ããã¹ã­ã«ãçµæ­´ã ãã§ãªããããã®äººã¨ä¸ç·ã«åããããããã®äººãªãå°é£ãªç¶æ³ã§ãä¸ç·ã«ä¹ãè¶ãããããã¨æããäººãæ¢ãã¦ãã¾ããã ãããããç§ãã¡ã¯é£¾ããªãè¨èã§ãããã®ã¾ã¾ã®å§¿ããä¼ããããã¨æãã¾ãã</p>
+
+        <p>ããããæ­£ç´ã«ç³ãä¸ãã¾ãã<span class="text-copper font-bold">ARCHECOã¯ä¸äººã«ã¨ã£ã¦è¯ãä¼ç¤¾ã§ã¯ããã¾ããã</span>å®å®ããå¤§ä¼æ¥­ã®ãããªç°å¢ãæ±ããæ¹ãæ±ºãããããã¨ã ããããªãããæ¹ã«ã¯åãã¦ãã¾ãããéã«ãèªåã®é ­ã§èããèªåã®è¶³ã§åããèªåã®æã§æªæ¥ãåãæãããæ¹ã«ã¯ãããä»¥ä¸ãªãç°å¢ãæä¾ã§ããã¨èªè² ãã¦ãã¾ãã</p>
+      </div>
+
+      <hr class="border-gray-800 my-12">
+
+      <h3 class="text-2xl md:text-3xl text-copper italic font-semibold mb-6">ç§ãã¡ãæ±ããäººæ</h3>
+      <p class="text-gray-300 leading-relaxed mb-10">ARCHECOã¯ããã åªç§t-6xl lg:text-7xl font-bold leading-tight mb-8">
+      ARCHECOã¯<br>ããªãã«ã¨ã£ã¦<br><span class="text-copper">è¯ãè·å ´ã§ã¯ãªã</span><br>ããããã¾ãã
+    </h1>
+    <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+      ç§ãã¡ã¯ãæç¤ºãå¾ã¤äººã§ã¯ãªããèªãèãåãäººãæ±ãã¦ãã¾ãã<br>
+      å¤±æãæããææ¦ããæ³¥è­ãå®è¡ã§ããäººãæ±ãã¦ãã¾ãã
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#ceo-message" class="inline-flex items-center justify-center px-8 py-4 bg-gray-800 hover:bg-gray-700 rounded-lg text-white font-medium transition">ç§ãã¡ã«ã¤ãã¦ç¥ã <span class="ml-2">&rarr;</span></a>
+      <a href="#jobs" class="inline-flex items-center justify-center px-8 py-4 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition">ã¨ã³ããªã¼ãã</a>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: ä»£è¡¨ã¡ãã»ã¼ã¸ -->
+<section id="ceo-message" class="bg-concrete-2 py-24">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="fade-in">
+      <div class="flex items-center mb-12">
+        <span class="w-1 h-10 bg-copper mr-4 inline-block"></span>
+        <h2 class="text-3xl md:text-4xl font-bold">ä»£è¡¨ã¡ãã»ã¼ã¸</h2>
+      </div>
+
+      <div class="space-y-8 text-gray-300 leading-relaxed text-base md:text-lg">
+        <p>ç§ãã¡ARCHECOã¯ã<span class="text-copper font-bold">ãHUMBLE ROOTS, MASSIVE SPARKS.ã</span>ã¨ãããã¸ã§ã³ãæ²ãã¦ãã¾ããæ±äº¬ã®ä¸çºãããä¸çãé©ããããããªã¤ã³ãã¯ããçã¿åºãããããç§ãã¡ã®å­å¨æç¾©ã§ããå¤§ä¼æ¥­ã®çæ¿ãæ½¤æ²¢ãªãªã½ã¼ã¹ããªãã¦ããç¥æµã¨æç±ã¨å®è¡åã§åè² ã§ããã¨ä¿¡ãã¦ãã¾ãã</p>
+
+        <p>æ¡ç¨ã¯ãä¸ç·ã«æ°ããä¾¡å¤ãçã¿åºãã¦ããä»²éæ¢ãã§ããã¹ã­ã«ãçµæ­´ã ãã§ãªããããã®äººã¨ä¸ç·ã«åããããããã®äººãªãå°é£ãªç¶æ³ã§ãä¸ç·ã«ä¹ãè¶ãããããã¨æããäººãæ¢ãã¦ãã¾ããã ãããããç§ãã¡ã¯é£¾ããªãè¨èã§ãããã®ã¾ã¾ã®å§¿ããä¼ããããã¨æãã¾ãã</p>
+
+        <p>ããããæ­£ç´ã«ç³ãä¸ãã¾ãã<span class="text-copper font-bold">ARCHECOã¯ä¸äººã«ã¨ã£ã¦è¯ãä¼ç¤¾ã§ã¯ããã¾ããã</span>å®å®ããå¤§ä¼æ¥­ã®ãããªç°å¢ãæ±ããæ¹ãæ±ºãããããã¨ã ããããªãããæ¹ã«ã¯åãã¦ãã¾ãããéã«ãèªåã®é ­ã§èããèªåã®è¶³ã§åããèªåã®æã§æªæ¥ãåãæãããæ¹ã«ã¯ãããä»¥ä¸ãªãç°å¢ãæä¾ã§ããã¨èªè² ãã¦ãã¾ãã</p>
+      </div>
+
+      <hr class="border-gray-800 my-12">
+
+      <h3 class="text-2xl md:text-3xl text-copper italic font-semibold mb-6">ç§ãã¡ãæ±ããäººæ</h3>
+      <p class="text-gray-300 leading-relaxed mb-10">ARCHECOã¯ããã åªç§ãªã ãã§ã¯ãªããä»¥ä¸ã®ç¹æ§ãæããåºã¦å¼·ãäººã«ã¯æé«ã®ç°å¢ã§ããéã«è¨ãã°ããããã®ç¹æ§ããªãå ´åã¯ãäºãã«ã¨ã£ã¦ä¸å¹¸ãªçµæã«ãªããã­ã¾ããã</p>
+
+      <div class="space-y-8 mb-12">
+        <div class="border-l-2 border-copper pl-6">
+          <h4 class="text-xl font-bold mb-2">èªå¾çã«åããå</h4>
+          <p class="text-gray-400">æç¤ºãå¾ã¤ã®ã§ã¯ãªããç®æ¨ã«åãã£ã¦èªãæé©ãªéãåãéããäººãæ­£è§£ããªãä¸­ã§ãä»®èª¬ãç«ã¦ãæ¤è¨¼ããåã«é²ããåãæã£ã¦ããäººãæ±ãã¦ãã¾ãã</p>
+        </div>
+        <div class="border-l-2 border-copper pl-6">
+          <h4 class="text-xl font-bold mb-2">éå¿ã¨éçæ</h4>
+          <p class="text-gray-400">ããããªãããã¢ã¿ãã¯ããå¤±æããå­¦ã³ãååº¦ã¶ã¤ãã£ã¦ãããäººãã¹ãã¼ããã ãã§ãªããæ³¥è­ãã¨è²ªæ¬²ããå¼ã­åããäººãæ­è¿ãã¾ãã</p>
+        </div>
+        <div class="border-l-2 border-copper pl-6">
+          <h4 class="text-xl font-bold mb-2">æ§æ³ããå®è¡ã¾ã§</h4>
+          <p class="text-gray-400">æ¦ç¥ãæãã ãã§ãªããæ³¥è­ãç¾å ´ã§å®è¡ã§ããäººãç¾ããè¨ç»æ¸ãä½ããã¨ããããä¸å®å¨ã§ãåããã­ãã¿ã¤ããä½ããé¡§å®¢ã®åã«ç«ã¦ãäººãè©ä¾¡ãã¾ãã</p>
+        </div>
+      </div>
+
+      <h3 class="text-2xl md:text-3xl text-copper italic font-semibold mb-6">ç§ãã¡ãæä¾ããç°å¢</h3>
+      <div class="space-y-6 text-gray-300 leading-relaxed mb-12">
+        <p>ARCHECOã§ã¯ãæææ±ºå®ã®ã¹ãã¼ããæéè¦è¦ãã¦ãã¾ããå¤§ä¼æ¥­ã§ã¯ä½é±éããããæææ±ºå®ããARCHECOã§ã¯æ°æéã§è¡ããã¾ããããªãã®ã¢ã¤ãã¢ãè¯ããã°ãããã«å®è¡ã«ç§»ããç°å¢ãããã¾ãã</p>
+        <p>ã¾ããä¸äººã²ã¨ãã®è£¡éãéå¸¸ã«å¤§ããã®ãç¹å¾´ã§ããèªåã®ãã­ã¸ã§ã¯ããèªåã®å¤æ­ã§æ¨é²ã§ãã¾ãããã¡ããããã®åè²¬ä»»ãä¼´ãã¾ããããããããæé·ã®æºæ³ã ã¨èãã¦ãã¾ãã</p>
+        <p>å¤æ§ãªããã¯ã°ã©ã¦ã³ããæã¤ã¡ã³ãã¼ãããã©ãããªé¢ä¿æ§ã®ä¸­ã§åç£ç¢ç£¨ãã¦ãã¾ããå¹´é½¢ãçµæ­´ã«é¢ä¿ãªããè¯ãã¢ã¤ãã¢ã¨å®è¡åãè©ä¾¡ãããæåã§ãã</p>
+      </div>
+
+      <div class="text-gray-300 leading-relaxed mb-12">
+        <p>é¸èã§ã¯ãããªãã®ããã¾ã§ã®çµé¨ã ãã§ãªããããããã®å¯è½æ§ãéè¦ãã¾ããå®ç§ãªçµæ­´ã¯å¿è¦ããã¾ãããå¤§åãªã®ã¯ãå°é£ã«ç«ã¡åããè¦æã¨ãæé·ãç¶ããæå¿ã§ããå°ãã§ãå±æããã ãããªãããã²ã¨ã³ããªã¼ãã¦ãã ãããããªãã¨ãä¼ãã§ãããã¨ãæ¥½ãã¿ã«ãã¦ãã¾ãã</p>
+      </div>
+
+      <div class="text-right text-gray-300">
+        <p class="font-bold text-lg">ARCHECO ä»£è¡¨</p>
+        <p class="text-gray-400 mt-1">æ¡ç¨ãã¼ã ä¸å</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: ãã¸ã§ã³ -->
+<section id="vision" class="py-24 bg-overlay relative">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-12 mb-20 fade-in">
+      <div>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          HUMBLE ROOTS,<br>MASSIVE SPARKS.
+        </h2>
+      </div>
+      <div class="flex flex-col justify-center">
+        <span class="text-sm tracking-[0.2em] text-copper uppercase mb-4">ç®æãçæ³ã®å§¿</span>
+        <h3 class="text-2xl md:text-3xl font-bold leading-snug">
+          ç ãæ¾ã¾ããä¾¡å¤ã§<br>ä¸çãã²ã£ããè¿ã<br>ã¸ã£ã¤ã¢ã³ãã­ãªã³ã°ã®ä½ç¾
+        </h3>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="flex items-center mb-4">
+        <span class="w-1 h-8 bg-copper mr-4 inline-block"></span>
+        <h3 class="text-2xl md:text-3xl font-bold">ããªã¥ã¼</h3>
+      </div>
+      <p class="text-gray-400 mb-12 ml-5">å¤§åã«ããä¾¡å¤è¦³ãè¡åæéï¼è¦æã§ãå®ãã¹ãé¨åï¼</p>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Value 01 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><span class="text-copper text-sm font-bold">01</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">MVAï¼Most Valuable Actionï¼ãå¿åãã</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">å¸¸ã«æãã¤ã³ãã¯ãã®ããè¡åãé¸ã³åããå¿ããã«æµããããæ¬å½ã«ä¾¡å¤ããä»äºã«éä¸­ããã</p>
+        </div>
+        <!-- Value 02 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span class="text-copper text-sm font-bold">02</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">å¤äº¤çæ¯ãèãããã</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">ç¤¾åå¤åãããèª å®ã§ä¸å¯§ãªã³ãã¥ãã±ã¼ã·ã§ã³ãå¿ããããä¿¡é ¼é¢ä¿ãç¯ããã¨ãå¨ã¦ã®åå°ã«ãªãã</p>
+        </div>
+        <!-- Value 03 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><span class="text-copper text-sm font-bold">03</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">ãã¤ããçå£ã«ç²ã</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">ç°¡åã«è«¦ããªããå£ã«ã¶ã¤ãã£ã¦ããå¥ã®è§åº¦ããä½åº¦ã§ãã¢ãã­ã¼ãããçªç ´å£ãè¦ã¤ãåºãã</p>
+        </div>
+        <!-- Value 04 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="text-copper text-sm font-bold">04</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">æ¬æ°ã®ãã¸ã·ã§ã³ãã¼ã¯ã§ç£¨ã</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">èªåã®æè¦ãæã¡ãå»ºè¨­çã«è­°è«ãããæ¹å¤ã§ã¯ãªãææ¡ã§ããã¼ã å¨ä½ã®æèãç ãæ¾ã¾ãã</p>
+        </div>
+        <!-- Value 05 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="text-copper text-sm font-bold">05</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">ä»²éãä¿¡é ¼ãã</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">ä¸äººã§å¨ã¦ãæ±ãè¾¼ã¾ãªããä»²éã®åãä¿¡ããé ¼ããå±ã«é«ãåããã¨ã§ãåäººã§ã¯å°éã§ããªãææãåºãã</p>
+        </div>
+        <!-- Value 06 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div><span class="text-copper text-sm font-bold">06</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">é©åº¦ãªæ¥½è¦³æ§ãæã¤</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">å°é£ãªç¶æ³ã§ãããªãã¨ããªããã¨ååãã«æããåãæ²è¦³ã¯æ°åãæ¥½è¦³ã¯æå¿ãæå¿ãæã£ã¦æªæ¥ãä¿¡ããã</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: ç§ãã¡ã®ç°å¢ -->
+<section id="environment" class="py-24 bg-concrete">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-3xl md:text-4xl font-bold">ç§ãã¡ã®ç°å¢</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-6 fade-in">
+      <!-- Card 1 -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden">
+        <div class="h-1 bg-blue-500"></div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-6">è£éã¨èªç±</h3>
+          <ul class="space-y-4 text-gray-400">
+            <li class="flex items-start"><span class="w-1 h-1 bg-blue-500 rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>ãã­ã¸ã§ã¯ãã®é²ãæ¹ã¯èªåã§æ±ºããããã¤ã¯ã­ããã¸ã¡ã³ãã¯ä¸åããã¾ããã</li>
+            <li class="flex items-start"><span class="w-1 h-1 bg-blue-500 rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>ãªã¢ã¼ãã¯ã¼ã¯ã»ãã¬ãã¯ã¹å¶åº¦ãæ´»ç¨ããæãããã©ã¼ãã³ã¹ãåºãåãæ¹ãé¸æã§ãã¾ãã</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden">
+        <div class="h-1 bg-copper"></div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-6">æ¬æ°ã®ææ¦</h3>
+          <ul class="space-y-4 text-gray-400">
+            <li class="flex items-start"><span class="w-1 h-1 bg-copper rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>å¤§æä¼æ¥­ã®UIUXæ¹åãæ°è¦äºæ¥­éçºãªã©ãç¤¾ä¼çã¤ã³ãã¯ãã®å¤§ãããã­ã¸ã§ã¯ãã«æºããã¾ãã</li>
+            <li class="flex items-start"><span class="w-1 h-1 bg-copper rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>èªç¤¾ãã­ãã¯ãã®ç«ã¡ä¸ãã«ãåç»ã§ãã0â1ã®ãã§ã¼ãºãçµé¨ã§ãã¾ãã</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden">
+        <div class="h-1 bg-blue-500"></div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-6">æé·æ©ä¼</h3>
+          <ul class="space-y-4 text-gray-400">
+            <li class="flex items-start"><span class="w-1 h-1 bg-blue-500 rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>çµå¶é£ã¨ã®è·é¢ãè¿ããçµå¶è¦ç¹ã§ã®ãã£ã¼ãããã¯ãæ¥å¸¸çã«åãããã¾ãã</li>
+            <li class="flex items-start"><span class="w-1 h-1 bg-blue-500 rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>æ¸ç±è³¼å¥ã»ã»ããã¼åå ã®æ¯æ´å¶åº¦ããããå­¦ã³ã¸ã®æè³ãæãã¿ã¾ããã</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden">
+        <div class="h-1 bg-copper"></div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-6">å¤æ§æ§ã¨ãã©ããã</h3>
+          <ul class="space-y-4 text-gray-400">
+            <li class="flex items-start"><span class="w-1 h-1 bg-copper rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>ãã¶ã¤ãã¼ãã¨ã³ã¸ãã¢ãã³ã³ãµã«ã¿ã³ããªã©å¤æ§ãªããã¯ã°ã©ã¦ã³ãã®ã¡ã³ãã¼ãå¨ç±ã</li>
+            <li class="flex items-start"><span class="w-1 h-1 bg-copper rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>å½¹è·ã«é¢ä¿ãªãããããä»ãã§å¼ã³åããã©ãããªæåãè¯ãã¢ã¤ãã¢ã¯èª°ããã§ãæ­è¿ããã¾ãã</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: åéè¦é  -->
+<section id="jobs" class="py-24 bg-concrete-2">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <div class="inline-flex items-center mb-6">
+        <span class="w-1 h-8 bg-copper mr-4 inline-block"></span>
+        <h2 class="text-3xl md:text-4xl font-bold">åéè¦é </h2>
+      </div>
+      <p class="text-gray-400 text-lg">ä¸­éæ¡ç¨ã»ã¤ã³ã¿ã¼ã³æ¡ç¨ã®2ã¤ã®å¿ååºåããããã¾ã</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto fade-in">
+      <!-- ä¸­éæ¡ç¨ -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl p-8 hover:border-copper/50 transition group">
+        <div class="h-1 bg-copper rounded-full mb-6"></div>
+        <h3 class="text-2xl font-bold mb-3">ä¸­éæ¡ç¨</h3>
+        <p class="text-gray-400 mb-6 leading-relaxed">äºæ¥­éçºãUIUXãã³ã³ãµã«ãã£ã³ã°ç­ã®å®åçµé¨ããæã¡ã®æ¹ãå³æ¦åã¨ãã¦å±ã«äºæ¥­ãæ¨é²ããã ããæ¹ãåéãã¦ãã¾ãã</p>
+        <ul class="text-gray-500 text-sm space-y-2 mb-8 list-none">
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-copper rounded-full flex-shrink-0"></span>äºæ¥­éçºã»æ°è¦äºæ¥­æå½</li>
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-copper rounded-full flex-shrink-0"></span>UX/UIãã¶ã¤ãã¼</li>
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-copper rounded-full flex-shrink-0"></span>ã³ã³ãµã«ã¿ã³ã</li>
+        </ul>
+        <button onclick="openModal('entry-career')" class="w-full py-3 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition">ä¸­éæ¡ç¨ã«ã¨ã³ããªã¼ &rarr;</button>
+      </div>
+
+      <!-- ã¤ã³ã¿ã¼ã³æ¡ç¨ -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl p-8 hover:border-blue-500/50 transition group">
+        <div class="h-1 bg-blue-500 rounded-full mb-6"></div>
+        <h3 class="text-2xl font-bold mb-3">ã¤ã³ã¿ã¼ã³æ¡ç¨</h3>
+        <p class="text-gray-400 mb-6 leading-relaxed">å­¦çã»è¥æã®æ¹åããå®è·µçãªé·æã¤ã³ã¿ã¼ã³ã·ããã§ãæ°è¦äºæ¥­éçºã®æåç·ãçµé¨ã§ãã¾ãã</p>
+        <ul class="text-gray-500 text-sm space-y-2 mb-8 list-none">
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-blue-500 rounded-full flex-shrink-0"></span>4ã¤ã®ãã­ã¸ã§ã¯ãã§åéä¸­</li>
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-blue-500 rounded-full flex-shrink-0"></span>æçµ¦1,200åã»äº¤éè²»æ¯çµ¦</li>
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-blue-500 rounded-full flex-shrink-0"></span>é±2æ¥ã / ãªã¢ã¼ãç¸è«å¯</li>
+        </ul>
+        <a href="#intern" class="block w-full py-3 bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-bold transition text-center">ã¤ã³ã¿ã¼ã³åéãè¦ã &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 6: ã¤ã³ã¿ã¼ã³åé -->
+<section id="intern" class="py-24 bg-overlay">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-16 fade-in">
+      <div class="flex items-center mb-4">
+        <span class="w-1 h-10 bg-blue-500 mr-4 inline-block"></span>
+        <h2 class="text-3xl md:text-4xl font-bold">ã¤ã³ã¿ã¼ã³åé</h2>
+      </div>
+      <p class="text-gray-400 text-lg ml-5">ç¾å¨4ã¤ã®ãã­ã¸ã§ã¯ãã§ã¤ã³ã¿ã¼ã³çãåéãã¦ãã¾ã</p>
+    </div>
+
+    <div class="space-y-6 fade-in">
+
+      <!-- Intern 1: è¨ªæ¥å¤å½äººè¦³åä½é¨é©æ°ãã­ã¸ã§ã¯ã -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-copper/20 text-copper text-xs font-bold rounded-full">äºæ¥­éçºã»ãã¼ããã¼å¶æ¥­</span>
+            <span class="text-gray-600 text-xs">æä½6ã¶æ ï¼ é±2æ¥ã</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">è¨ªæ¥å¤å½äººè¦³åä½é¨é©æ°ãã­ã¸ã§ã¯ã</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">è¨ªæ¥å¤å½äººåãã®æ°ããè¦³åä½é¨ãµã¼ãã¹ã®ç«ã¡ä¸ãããå¤§ææè¡ä¼ç¤¾ã¨ã®å±åãã­ã¸ã§ã¯ãã¨ãã¦æ¨é²ãã¾ããå¤§ä¼æ¥­ã¨ã®é£æºããã¼ããã¼éæãéãã¦ãäºæ¥­éçºã®å®è·µåãç£¨ãã¾ãã</p>
+
+          <!-- è©³ç´°ãã°ã« -->
+          <div id="intern-detail-1" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-copper mb-3">ä»»ãããä»äº</h4>
+                <ul class="text-gray-400 text-sm space-y-2 leading-relaxed">
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>è¨ªæ¥å¤å½äººè¦³åå®¢ã®ãã¼ãºãè¡åãæ·±ãæãä¸ããæ°ããªè¦³åä½é¨ãµã¼ãã¹ãä¼ç»</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ä»®èª¬æ¤è¨¼ï¼ã¦ã¼ã¶ã¼ã¤ã³ã¿ãã¥ã¼ããã­ãã¿ã¤ãä½æï¼ã®å®æ½</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ãµã¼ãã¹ã³ã³ã»ããããã¸ãã¹ã¢ãã«ãå·ä½åãææ¡è³æã¨ãã¦ä½æ</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ããã«ãè¦³åæ½è¨­ãäº¤éæ©é¢ãªã©ã®ãã¼ããã¼åè£ãæ¢ç´¢</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ãã¼ããã¼ä¼æ¥­ã¸ã®ä¼ç»ææ¡ãæã¡åãããæ¡ä»¶äº¤æ¸ãå¥ç´èª¿æ´</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ãã­ã¸ã§ã¯ãå¨ä½ã®é²æç®¡çã¨è³æä½æ</li>
+                </ul>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">å¿é æ¡ä»¶</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- ä¸»ä½æ§ã¨å®è¡å</li>
+                    <li>- ã³ãã¥ãã±ã¼ã·ã§ã³è½å</li>
+                    <li>- ãããã¯ã¼ã¯ã®è»½ã</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">æ­è¿æ¡ä»¶</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- èªå­¦å</li>
+                    <li>- ãã¬ã¼ã³ãã¼ã·ã§ã³çµé¨</li>
+                    <li>- æè¡ã»è¦³åæ¥­çã¸ã®ç¥è­/çµé¨</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">å¤åæ¡ä»¶</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">çµ¦ä¸</span><span class="text-white">æçµ¦1,200å</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">äº¤éè²»</span><span class="text-white">æ34,000åã¾ã§</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">æé</span><span class="text-white">æä½6ã¶æ</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">å¤åæé</span><span class="text-white">1æ¥7hã / 9:00-20:00</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">åºå¤</span><span class="text-white">é±2æ¥ãï¼åæ¥å¯ï¼</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">ãªã¢ã¼ã</span><span class="text-white">ä¸é¨å¯ï¼ææ°´ããããåºç¤¾ï¼</span></div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">èº«ã«ã¤ãã¹ã­ã«</h4>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1.5 bg-copper/10 text-copper text-xs rounded-full border border-copper/20">å¤§ä¼æ¥­é£æº</span>
+                  <span class="px-3 py-1.5 bg-copper/10 text-copper text-xs rounded-full border border-copper/20">ãã¼ããã¼å·»ãè¾¼ã¿</span>
+                  <span class="px-3 py-1.5 bg-copper/10 text-copper text-xs rounded-full border border-copper/20">ãªã¼ãã¼ã·ãã</span>
+                  <span class="px-3 py-1.5 bg-copper/10 text-copper text-xs rounded-full border border-copper/20">ä¼ç»å</span>
+                  <span class="px-3 py-1.5 bg-copper/10 text-copper text-xs rounded-full border border-copper/20">äºæ¥­ç«ã¡ä¸ã</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleDetail(1)" id="toggle-btn-1" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">è©³ç´°ãè¦ã &#9660;</button>
+            <button onclick="openModal('entry-intern')" class="flex-1 py-3 bg-copper hover:bg-copper/80 text-white rounded-lg font-bold transition text-sm">å¿åãã &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intern 2: SNSã³ã³ãã³ãã¯ãªã¨ã¤ã¿ã¼ -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-blue-500/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full">SNSã³ã³ãã³ãã¯ãªã¨ã¤ã¿ã¼</span>
+            <span class="text-gray-600 text-xs">æä½6ã¶æ ï¼ é±2æ¥ã</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">SNSã³ã³ãã³ãã¯ãªã¨ã¤ã¿ã¼ï¼æ°è¦äºæ¥­åéï¼</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">ä¸æµã¢ã¹ãªã¼ãã¨æ é¤å£«ã«ããæ°è¦äºæ¥­ï¼FAMäºæ¥­ï¼ã®ãã¼ã±ãã£ã³ã°æ¦ç¥ç«æ¡ããå®è¡ãå¹ææ¸¬å®ã¾ã§ãæå½ãYouTubeã»Instagramåãã³ã³ãã³ãã®ä¼ç»ã»å¶ä½ãéãã¦ãã¼ã±ãã£ã³ã°ã¹ã­ã«ãç£¨ãã¾ãã</p>
+
+          <div id="intern-detail-2" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-blue-400 mb-3">ä»»ãããä»äº</h4>
+                <ul class="text-gray-400 text-sm space-y-2 leading-relaxed">
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ã¹ãã¼ãæ é¤å¸å ´ã®ãã¬ã³ããç«¶åãµã¼ãã¹ååãã¿ã¼ã²ããé¡§å®¢ã¤ã³ãµã¤ãã®èª¿æ»ã»åæ</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>YouTubeã»Instagramåãã³ã³ãã³ãä¼ç»ã»å¶ä½ã»ç·¨é</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>åç»ç·¨éï¼ã«ããããã­ãããè²èª¿è£æ­£ï¼</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ãµã ãã¤ã«ã»ã¿ã¤ãã«ã»èª¬ææã®ä½æ</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>Instagramã³ã³ãã³ãã«ã¬ã³ãã¼ï¼ãã£ã¼ããã¹ãã¼ãªã¼ãºããªã¼ã«ï¼ã®ä¼ç»ã»ç®¡ç</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ã³ãã¥ããã£ã¨ã³ã²ã¼ã¸ã¡ã³ãç®¡ç</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>KPIè¨­å®ã¨å¹ææ¸¬å®ãã¬ã¼ã ã¯ã¼ã¯è¨­è¨</li>
+                </ul>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">å¿é æ¡ä»¶</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- SNSã¢ã«ã¦ã³ãéç¨çµé¨</li>
+                    <li>- åç»ç·¨éçµé¨</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">æ±ããäººç©å</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- ä¸»ä½æ§ããã</li>
+                    <li>- ç©æ¥µçã«åãçµãã</li>
+                    <li>- æé·ææ¬²ããã</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">å¤åæ¡ä»¶</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">çµ¦ä¸</span><span class="text-white">æçµ¦1,200å</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">äº¤éè²»</span><span class="text-white">æ34,000åã¾ã§</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">æé</span><span class="text-white">æä½6ã¶æ</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">å¤åæé</span><span class="text-white">1æ¥4hã / 9:00-21:00</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">åºå¤</span><span class="text-white">é±2æ¥ãï¼åæ¥å¯ï¼</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">ãªã¢ã¼ã</span><span class="text-white">ä¸é¨å¯ï¼æ1æ¥åºç¤¾ï¼</span></div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">èº«ã«ã¤ãã¹ã­ã«</h4>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">ãã¼ã±ãã£ã³ã°ä¼ç»</span>
+                  <span class="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">ã·ã§ã¼ããã©ã¼ã åç»æ¦ç¥ã»ç·¨é</span>
+                  <span class="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">ã³ãã¥ããã£ããã¸ã¡ã³ã</span>
+                  <span class="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">ãã¬ã³ãåæã»å¿ç¨</span>
+                  <span class="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">ã³ã³ãã³ãå¶ä½ã¯ã¼ã¯ãã­ã¼</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleDetail(2)" id="toggle-btn-2" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">è©³ç´°ãè¦ã &#9660;</button>
+            <button onclick="openModal('entry-intern')" class="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition text-sm">å¿åãã &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intern 3: ã¹ãã¼ãÃæ é¤ãã¸ãã¹ããã­ããã¡ã³ã -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-green-500/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full">ãã¸ãã¹ããã­ããã¡ã³ã</span>
+            <span class="text-gray-600 text-xs">æä½12ã¶æ ï¼ é±2æ¥ã</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">ã¹ãã¼ãÃæ é¤ãã¸ãã¹ããã­ããã¡ã³ã</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">è¶ä¸æµã¢ã¹ãªã¼ãã¨ã®ã³ã©ãä¼ç»ç«æ¡ããæ é¤å£«ãããã¯ã¼ã¯ã®æ§ç¯ã¾ã§ãã¹ãã¼ãã»æ é¤é åã®æ°è¦äºæ¥­éçºã«åç»ãã0â1ã®ãã¸ãã¹ç«ã¡ä¸ããã­ã»ã¹ãä¸æ°éè²«ã§çµé¨ã§ãã¾ãã</p>
+
+          <div id="intern-detail-3" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-green-400 mb-3">ä»»ãããä»äº</h4>
+                <div class="space-y-4">
+                  <div>
+                    <p class="text-white text-sm font-medium mb-2">1. ã¢ã¹ãªã¼ãã³ã©ãã¬ã¼ã·ã§ã³ä¼ç»</p>
+                    <ul class="text-gray-400 text-sm space-y-1.5 ml-4 leading-relaxed">
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>éçããµãã«ã¼ããã¹ã±ããã¯ã·ã³ã°ãªã©æ¢å­ãããã¯ã¼ã¯ãæ´»ç¨ããã³ã©ãã¬ã¼ã·ã§ã³ä¼ç»ã®ç«æ¡ã»ææ¡</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ã¹ãã¼ãé¸æãããã¸ã¡ã³ãäºåæã¨ã®æè¡ã»ã¹ã±ã¸ã¥ã¼ã«èª¿æ´</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>å¥ç´æ¡ä»¶ãåºæ¼åå®¹ã®åãã¾ã¨ããé²è¡ç®¡ç</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="text-white text-sm font-medium mb-2">2. æ é¤å£«ï¼ç®¡çæ é¤å£«ã®ã¢ã©ã¤ã¢ã³ã¹éæ</p>
+                    <ul class="text-gray-400 text-sm space-y-1.5 ml-4 leading-relaxed">
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ã¹ãã¼ãæ é¤åéã§æ´»èºããæ é¤å£«ãªã¹ãã¢ããããªãµã¼ã</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ååã¢ãã­ã¼ãï¼ã¡ã¼ã«ã»é»è©±ã»SNSï¼ãé¢è«ã¢ãè¨­å®</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ææºæ¡ä»¶ã®ããåãããæ¥­åãã­ã¼è¨­è¨</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="text-white text-sm font-medium mb-2">3. å¤§æé£åã¡ã¼ã«ã¼ã¨ã®å±åãã­ã¸ã§ã¯ãæ¯æ´</p>
+                    <ul class="text-gray-400 text-sm space-y-1.5 ml-4 leading-relaxed">
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ãã¼ãã£ã³ã°è³æã»ä¼ç»æ¸ä½æï¼PowerPointï¼Excelï¼</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ãã­ã¸ã§ã¯ãé²æç®¡çãç¤¾åå¤ã¹ãã¼ã¯ãã«ãã¼ã¨ã®èª¿æ´</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ãã¤ã­ããæä¾ä¼ãè©¦é£ã¤ãã³ãã®éå¶ãµãã¼ã</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">å¿é æ¡ä»¶</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- èªèµ°åã»ä¸»ä½æ§</li>
+                    <li>- ã¹ãã¼ã/æ é¤åéã¸ã®å¼·ãé¢å¿</li>
+                    <li>- ãã¼ã åå¤ã¨ã®åæ»ãªã³ãã¥ãã±ã¼ã·ã§ã³å</li>
+                    <li>- ãã«ãã¿ã¹ã¯ã§åããå</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">æ­è¿æ¡ä»¶</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- ã¹ãã¼ãé¸æãè¸è½é¢ä¿èã¨ã®æè¡çµé¨</li>
+                    <li>- SNSãã¼ã±ãã£ã³ã°ãã³ã³ãã³ãå¶ä½ã®å®åçµé¨</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">å¤åæ¡ä»¶</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">çµ¦ä¸</span><span class="text-white">æçµ¦1,200å</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">äº¤éè²»</span><span class="text-white">æ34,000åã¾ã§</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">æé</span><span class="text-white">æä½12ã¶æ</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">å¤åæé</span><span class="text-white">1æ¥4hã</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">åºå¤</span><span class="text-white">é±2æ¥ãï¼åæ¥å¯ï¼</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">ãªã¢ã¼ã</span><span class="text-white">ä¸é¨å¯ï¼ææ°´ããããåºç¤¾ï¼</span></div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">èº«ã«ã¤ãã¹ã­ã«</h4>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">0â1çºæ³Ãå®è¡å</span>
+                  <span class="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">ãã³ãºãªã³äº¤æ¸è¡</span>
+                  <span class="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">ã¹ãã¼ãªã¼æ§ç¯å</span>
+                  <span class="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">äººãå»»ãè¾¼ãå</span>
+                  <span class="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">ã¹ã¿ã¼ãã¢ãããã¤ã³ãã»ãã</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleDetail(3)" id="toggle-btn-3" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">è©³ç´°ãè¦ã &#9660;</button>
+            <button onclick="openModal('entry-intern')" class="flex-1 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-bold transition text-sm">å¿åãã &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intern 4: å¤§ä¼æ¥­å¤é©ãã­ã¸ã§ã¯ã -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-purple-500/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-bold rounded-full">æ°è¦äºæ¥­ä¼ç»ã»ãã¼ããã¼ä¼æ¥­éæ</span>
+            <span class="text-gray-600 text-xs">æä½3ã¶æ ï¼ é±3æ¥ã</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">å¤§ä¼æ¥­å¤é©ãã­ã¸ã§ã¯ãï¼æ°è¦äºæ¥­ä¼ç»ï¼</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">å¤§ä¼æ¥­ã¨å±åµããæ°è¦äºæ¥­ãã­ã¸ã§ã¯ãã®æ¨é²ã«åç»ããã¸ãã¹éçºããã¼ã±ãã£ã³ã°ããã­ãã¯ãéçºããã¶ã¤ã³ã®4è·ç¨®ããé¸æã§ããäºæ¥­ä¼ç»ãããã¼ããã¼ä¼æ¥­ã®éæã¾ã§æåç·ã§çµé¨ã§ãã¾ãã</p>
+
+          <div id="intern-detail-4" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-purple-400 mb-3">é¸ã¹ã4ã¤ã®è·ç¨®</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="bg-gray-800/40 rounded-lg p-4">
+                    <p class="text-white text-sm font-medium mb-2">1. ãã¸ãã¹éçºï¼BizDevï¼</p>
+                    <ul class="text-gray-400 text-xs space-y-1 leading-relaxed">
+                      <li>å¸å ´èª¿æ»ã»ç«¶ååæã»ä»®èª¬æ¤è¨¼</li>
+                      <li>ã¯ã©ã¤ã¢ã³ãä¼æ¥­ã¨ã®æã¡åãããææ¡è³æä½æ</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-800/40 rounded-lg p-4">
+                    <p class="text-white text-sm font-medium mb-2">2. ãã¼ã±ãã£ã³ã°</p>
+                    <ul class="text-gray-400 text-xs space-y-1 leading-relaxed">
+                      <li>ãã¸ã¿ã«ãã¼ã±ãã£ã³ã°ï¼SNSéç¨ãã³ã³ãã³ãå¶ä½ãåºåéç¨ï¼</li>
+                      <li>ã¦ã¼ã¶ã¼ã¤ã³ã¿ãã¥ã»å®æ½ã»åæ</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-800/40 rounded-lg p-4">
+                    <p class="text-white text-sm font-medium mb-2">3. ãã­ãã¯ãéçºï¼ã¨ã³ã¸ãã¢ï¼</p>
+                    <ul class="text-gray-400 text-xs space-y-1 leading-relaxed">
+                      <li>MVPï¼Minimum Viable Productï¼ã®è¨­è¨ã»éçº</li>
+                      <li>ãã¼ã³ã¼ãã»ã­ã¼ã³ã¼ããã¼ã«ãæ´»ç¨ãããã­ãã¿ã¤ãã³ã°</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-800/40 rounded-lg p-4">
+                    <p class="text-white text-sm font-medium mb-2">4. ãã¶ã¤ã³ï¼UX/UIï¼</p>
+                    <ul class="text-gray-400 text-xs space-y-1 leading-relaxed">
+                      <li>UXãªãµã¼ãã»ã¦ã¼ã¶ã¼ãã­ã¼è¨­è¨</li>
+                      <li>ãã­ãã¿ã¤ãã³ã°ï¼Figmaãªã©ï¼</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">å¿é æ¡ä»¶</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- ã³ãã¥ãã±ã¼ã·ã§ã³ã»å¯¾äººé¢ä¿ã¹ã­ã«</li>
+                    <li>- ç®æ¨éæã¸ã®ææ¬²</li>
+                    <li>- ãã¬ã¼ã³è³æä½æã¹ã­ã«</li>
+                    <li>- ãã­ã¸ã§ã¯ãããã¸ã¡ã³ãå</li>
+                    <li>- æ¹å¤çæèå</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">æ±ããäººç©å</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- ç©æ¥µçã«åãçµãã</li>
+                    <li>- è²¬ä»»æããã</li>
+                    <li>- ã³ãã¥ãã±ã¼ã·ã§ã³è½åã«é·ãã¦ãã</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">å¤åæ¡ä»¶</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">çµ¦ä¸</span><span class="text-white">æçµ¦1,200å</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">äº¤éè²»</span><span class="text-white">æ34,000åã¾ã§</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">æé</span><span class="text-white">æä½3ã¶æ</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">å¤åæé</span><span class="text-white">1æ¥5hã / 10:00-20:00</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">åºå¤</span><span class="text-white">é±3æ¥ãï¼åæ¥å¯ï¼</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">ãªã¢ã¼ã</span><span class="text-white">ä¸é¨å¯ï¼é±1åºç¤¾å¿é ï¼</span></div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">èº«ã«ã¤ãã¹ã­ã«</h4>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1.5 bg-purple-500/10 text-purple-400 text-xs rounded-full border border-purple-500/20">ã­ã¸ã«ã«ã·ã³ã­ã³ã°</span>
+                  <span class="px-3 py-1.5 bg-purple-500/10 text-purple-400 text-xs rounded-full border border-purple-500/20">ãªã¼ãã¼ã·ããã»æææ±ºå®</span>
+                  <span class="px-3 py-1.5 bg-purple-500/10 text-purple-400 text-xs rounded-full border border-purple-500/20">ãã¬ã¼ã³ã»äº¤æ¸</span>
+                  <span class="px-3 py-1.5 bg-purple-500/10 text-purple-400 text-xs rounded-full border border-purple-500/20">ãã¸ãã¹ã¹ã­ã«å¨è¬</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleDetail(4)" id="toggle-btn-4" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">è©³ç´°ãè¦ã &#9660;</button>
+            <button onclick="openModal('entry-intern')" class="flex-1 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-bold transition text-sm">å¿åãã &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Section 7: CTA -->
+<section id="cta" class="py-24 bg-concrete">
+  <div class="max-w-4xl mx-auto px-6 text-center fade-in">
+    <p class="text-2xl md:text-3xl lg:text-4xl font-bold leading-relaxed mb-8">
+      ããªããããããããããæ¹ãããã®ã«ãã¨ããæ³ããæã¡ã<br class="hidden md:block">ãããå®ç¾ããããã«<span class="text-copper">æ³¥è­ãåããäºº</span>ãªã
+    </p>
+    <p class="text-xl md:text-2xl text-gray-300 mb-12">ç§ãã¡ã¨ä¸ç·ã«åãã¾ãããï¼</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#jobs" class="inline-flex items-center justify-center px-8 py-4 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition text-lg">ã¨ã³ããªã¼ãã <span class="ml-2">&rarr;</span></a>
+      <button onclick="openModal('chat')" class="inline-flex items-center justify-center px-8 py-4 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition text-lg">è©³ããè©±ãèã</button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="border-t border-gray-800 py-12">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
+      <div>
+        <p class="text-2xl font-bold font-heading">ARCHECO</p>
+        <p class="text-gray-500 mt-1">HUMBLE ROOTS, MASSIVE SPARKS.</p>
+      </div>
+      <nav class="flex flex-wrap gap-8 text-gray-400">
+        <button onclick="openModal('company')" class="hover:text-copper transition">ä¼ç¤¾æ¦è¦</button>
+        <a href="#jobs" class="hover:text-copper transition">åéè¦é </a>
+        <a href="#intern" class="hover:text-copper transition">ã¤ã³ã¿ã¼ã³</a>
+        <a href="mailto:info@archeco.co.jp" class="hover:text-copper transition">ãåãåãã</a>
+      </nav>
+    </div>
+    <p class="text-gray-600 text-sm">&copy; 2026 ARCHECO. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Career Entry Modal -->
+<div id="modal-entry-career" class="modal-overlay" onclick="if(event.target===this)closeModal('entry-career')">
+  <div class="modal-content p-8">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <span class="text-xs text-copper font-bold tracking-wider">ä¸­éæ¡ç¨</span>
+        <h3 class="text-2xl font-bold">ã¨ã³ããªã¼ãã©ã¼ã </h3>
+      </div>
+      <button onclick="closeModal('entry-career')" class="text-gray-500 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <!--
+      Google Forms Integration (Career):
+      Replace 1FAIpQLSd9z9U8c_OnVWrLF4jP8JsJd0DwnbdhUwQsrjwyZ5ni-y3-Pw with your actual Google Form ID.
+      Replace each entry.XXXXXX with the actual field entry IDs.
+    -->
+    <form id="entry-form-career" action="https://docs.google.com/forms/d/e/1FAIpQLSd9z9U8c_OnVWrLF4jP8JsJd0DwnbdhUwQsrjwyZ5ni-y3-Pw/formResponse" method="POST" target="hidden-iframe-career" onsubmit="handleSubmit(event,'career')">
+      <div class="space-y-5">
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">æ°å <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.1356101373" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">ããªã¬ã <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.1282994792" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">ã¡ã¼ã«ã¢ãã¬ã¹ <span class="text-red-500">*</span></label>
+          <input type="email" name="entry.1437237950" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">é»è©±çªå·</label>
+          <input type="tel" name="entry.317719178" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">ç¾å¨ã®è·ç¨®/æå± <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.583030861" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">å¿æåæ©ã»èªå·±PR</label>
+          <textarea name="entry.960595" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition resize-none"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="w-full mt-8 py-4 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold text-lg transition">ã¨ã³ããªã¼ãéä¿¡ãã</button>
+    </form>
+    <div id="entry-success-career" class="hidden text-center py-12">
+      <div class="text-copper mb-4"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <h4 class="text-2xl font-bold mb-2">éä¿¡å®äº</h4>
+      <p class="text-gray-400">ã¨ã³ããªã¼ãããã¨ããããã¾ãã<br>åå®¹ãç¢ºèªã®ä¸ãæå½èãããé£çµ¡ãããã¾ãã</p>
+      <button onclick="closeModal('entry-career')" class="mt-8 px-8 py-3 border border-gray-600 rounded-lg hover:border-copper transition">éãã</button>
+    </div>
+  </div>
+</div>
+<iframe name="hidden-iframe-career" style="display:none;"></iframe>
+
+<!-- Intern Entry Modal -->
+<div id="modal-entry-intern" class="modal-overlay" onclick="if(event.target===this)closeModal('entry-intern')">
+  <div class="modal-content p-8">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <span class="text-xs text-blue-400 font-bold tracking-wider">ã¤ã³ã¿ã¼ã³æ¡ç¨</span>
+        <h3 class="text-2xl font-bold">ã¨ã³ããªã¼ãã©ã¼ã </h3>
+      </div>
+      <button onclick="closeModal('entry-intern')" class="text-gray-500 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <!--
+      Google Forms Integration (Intern):
+      Replace 1FAIpQLSfLfpUY5dE8jw-TVRoRWfa6YATBXd01hZ0qhBWG4o-x4SNA4Q with your actual Google Form ID.
+      Replace each entry.XXXXXX with the actual field entry IDs.
+    -->
+    <form id="entry-form-intern" action="https://docs.google.com/forms/d/e/1FAIpQLSfLfpUY5dE8jw-TVRoRWfa6YATBXd01hZ0qhBWG4o-x4SNA4Q/formResponse" method="POST" target="hidden-iframe-intern" onsubmit="handleSubmit(event,'intern')">
+      <div class="space-y-5">
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">æ°å <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.564341899" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">ããªã¬ã <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.1733300926" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">ã¡ã¼ã«ã¢ãã¬ã¹ <span class="text-red-500">*</span></label>
+          <input type="email" name="entry.898945581" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">é»è©±çªå·</label>
+          <input type="tel" name="entry.1168800571" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">å­¦æ ¡åã»å­¦å¹´ <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.877854308" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">å¸æãã­ã¸ã§ã¯ã <span class="text-red-500">*</span></label>
+          <select name="entry.1538847594" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+            <option value="">é¸æãã¦ãã ãã</option>
+            <option value="è¨ªæ¥å¤å½äººè¦³åä½é¨é©æ°ãã­ã¸ã§ã¯ã">è¨ªæ¥å¤å½äººè¦³åä½é¨é©æ°ãã­ã¸ã§ã¯ã</option>
+            <option value="SNSã³ã³ãã³ãã¯ãªã¨ã¤ã¿ã¼">SNSã³ã³ãã³ãã¯ãªã¨ã¤ã¿ã¼ï¼æ°è¦äºæ¥­åéï¼</option>
+            <option value="ã¹ãã¼ãÃæ é¤ãã¸ãã¹ããã­ããã¡ã³ã">ã¹ãã¼ãÃæ é¤ãã¸ãã¹ããã­ããã¡ã³ã</option>
+            <option value="å¤§ä¼æ¥­å¤é©ãã­ã¸ã§ã¯ã">å¤§ä¼æ¥­å¤é©ãã­ã¸ã§ã¯ãï¼æ°è¦äºæ¥­ä¼ç»ï¼</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">å¿æåæ©ã»èªå·±PR</label>
+          <textarea name="entry.1070732405" rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition resize-none"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="w-full mt-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-bold text-lg transition">ã¨ã³ããªã¼ãéä¿¡ãã</button>
+    </form>
+    <div id="entry-success-intern" class="hidden text-center py-12">
+      <div class="text-copper mb-4"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <h4 class="text-2xl font-bold mb-2">éä¿¡å®äº</h4>
+      <p class="text-gray-400">ã¨ã³ããªã¼ãããã¨ããããã¾ãã<br>åå®¹ãç¢ºèªã®ä¸ãæå½èãããé£çµ¡ãããã¾ãã</p>
+      <button onclick="closeModal('entry-intern')" class="mt-8 px-8 py-3 border border-gray-600 rounded-lg hover:border-copper transition">éãã</button>
+    </div>
+  </div>
+</div>
+<iframe name="hidden-iframe-intern" style="display:none;"></iframe>
+
+<!-- Chat Modal -->
+<div id="modal-chat" class="modal-overlay" onclick="if(event.target===this)closeModal('chat')">
+  <div class="modal-content p-8">
+    <div class="flex justify-between items-center mb-8">
+      <h3 class="text-2xl font-bold">ARCHECOã«ã¤ãã¦è©³ããèã</h3>
+      <button onclick="closeModal('chat')" class="text-gray-500 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <div class="bg-gray-800/50 rounded-xl p-6 mb-6">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-copper rounded-full flex items-center justify-center font-bold text-sm">A</div>
+        <p class="text-gray-300">NotebookLMãä½¿ã£ã¦ARCHECOã«ã¤ãã¦è³ªåã§ãã¾ã</p>
+      </div>
+      <p class="text-gray-400 text-sm mb-6">AIãARCHECOã®æ¡ç¨æå ±ãä¼ç¤¾ã®æåã«ã¤ãã¦ãããªãã®çåã«ãç­ããã¾ãã</p>
+      <!-- Replace with your actual NotebookLM notebook URL -->
+      <a href="https://notebooklm.google.com/notebook/117143b2-5bc9-45f3-9a84-cdb1c44d2c6d?authuser=1" target="_blank" rel="noopener noreferrer" class="block w-full text-center py-4 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition text-lg">NotebookLMã§è³ªåãã &rarr;</a>
+    </div>
+    <div class="text-center text-gray-500 text-sm">
+      ã¾ãã¯ã¡ã¼ã«ã§ãåãåãã: <a href="mailto:info@archeco.co.jp" class="text-copper hover:underline">info@archeco.co.jp</a>
+    </div>
+  </div>
+</div>
+
+<!-- Company Modal -->
+<div id="modal-company" class="modal-overlay" onclick="if(event.target===this)closeModal('company')">
+  <div class="modal-content p-8">
+    <div class="flex justify-between items-center mb-8">
+      <h3 class="text-2xl font-bold">ä¼ç¤¾æ¦è¦</h3>
+      <button onclick="closeModal('company')" class="text-gray-500 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <table class="w-full text-left">
+      <tbody class="divide-y divide-gray-800">
+        <tr><td class="py-4 text-gray-400 w-32 align-top">åå·</td><td class="py-4">æ ªå¼ä¼ç¤¾ARCHECOï¼ã¢ã«ãã§ã³ï¼</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">ä»£è¡¨è</td><td class="py-4">ä»£è¡¨åç· å½¹ çæ¾¤ å®èµ·</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">è¨­ç«</td><td class="py-4">2014å¹´7æ</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">è³æ¬é</td><td class="py-4">3,000,000å</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">æå¨å°</td><td class="py-4">ã150-0001<br>æ±äº¬é½æ¸è°·åºç¥å®®å1-15-4 Barbizon76 3F</td></tr>
+        <tr><td class="py-4 text-gray-
