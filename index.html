@@ -590,18 +590,178 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
   </div>
 </section>
 
-<!-- Section 6: インターン募集 -->
+<!-- Section 6: 採用情報（タブ切替: 中途 / インターン） -->
 <section id="intern" class="py-24 bg-overlay">
   <div class="max-w-6xl mx-auto px-6">
     <div class="mb-16 fade-in">
-      <div class="flex items-center mb-4">
-        <span class="w-1 h-10 bg-blue-500 mr-4 inline-block"></span>
-        <h2 class="text-3xl md:text-4xl font-bold">インターン募集</h2>
+      <div class="flex items-center mb-6">
+        <span class="w-1 h-10 bg-copper mr-4 inline-block"></span>
+        <h2 class="text-3xl md:text-4xl font-bold">採用情報</h2>
       </div>
-      <p class="text-gray-400 text-lg ml-5">現在4つのプロジェクトでインターン生を募集しています</p>
+      <!-- タブ切替 -->
+      <div class="flex border-b border-gray-700 ml-5">
+        <button id="tab-career" onclick="switchRecruitTab('career')" class="px-6 py-3 text-lg font-bold border-b-2 border-copper text-copper transition">中途採用</button>
+        <button id="tab-intern" onclick="switchRecruitTab('intern-tab')" class="px-6 py-3 text-lg font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-300 transition">インターン募集</button>
+      </div>
     </div>
 
-    <div class="space-y-6 fade-in">
+    <!-- 中途採用タブ -->
+    <div id="recruit-career" class="space-y-6 fade-in">
+
+      <!-- Career 1: 事業開発ディレクター -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-copper/20 text-copper text-xs font-bold rounded-full">事業開発ディレクター</span>
+            <span class="text-gray-600 text-xs">正社員 ／ フルタイム</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">事業開発ディレクター（サービス企画）</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">スポーツ×栄養×ウェルネス領域の新規事業「FAM」のPMFフェーズを牽引。サービスのコンセプト立案からUX設計、要件定義、改善までを一気通貫でリードするポジションです。</p>
+
+          <div id="career-detail-1" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-copper mb-3">企業説明</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">ARCHECOは、大企業の意思決定にまで深く関与し、そのスピードと質の向上に寄与することで、新たな事業が実際に立ち上がる状態をつくり出すことを目指しています。構想段階にとどまらず、検証・推進・改善までを一気通貫で担う事業化のケーパビリティを持ち、大企業が持つ資源と組織構造に即した「実装可能な戦略」を共に設計・実行します。</p>
+                <p class="text-gray-400 text-sm leading-relaxed mt-2">こうした活動を通じて、大企業の持つ社会的インパクトを最大化しながら、新たな視点で新規事業が継続的に生まれる環境を整える——それこそが、私たちが追求する「日本型スタートアップスタジオ」のあり方です。</p>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-copper mb-3">募集背景</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">「共創によって、日本の新規事業を再定義する」というミッションのもと、大企業やトップアスリートと共に、社会価値と事業成長の両立に挑戦しています。現在、スポーツ×栄養×ウェルネス領域の新規事業「FAM」がPMFフェーズを迎えており、サービス価値の磨き込みと体験設計を加速させるため、顧客起点で構想を形にできるサービス企画ポジションを募集しています。</p>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-copper mb-3">業務内容</h4>
+                <p class="text-gray-400 text-sm leading-relaxed mb-3">「FAM」では、一流アスリートと著名栄養士が共創する新しいウェルネス体験を提供しています。単なるプランナーではなく、一次情報を自ら取りに行き、顧客の課題構造を読み解きながら、体験価値と事業成長を両立する"事業開発ディレクター"として活躍いただきます。</p>
+                <ul class="text-gray-400 text-sm space-y-2 leading-relaxed">
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>共創新事業「FAM」の検証〜PMFフェーズにおけるサービス企画立案・実行</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>エンドユーザー・パートナー（アスリート、栄養士、企業等）とのヒアリング・仮説検証</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>顧客課題を起点とした体験設計・サービス仕様策定</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>プロダクト開発チームへの要件定義・ディレクション</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>新機能・改善案の提案および優先度設計</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>KPI設計・効果検証・施策改善（PDCA推進）</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>チーム内外（マーケ・開発・パートナー）の調整・ファシリテーション</li>
+                </ul>
+                <p class="text-gray-500 text-xs mt-3">※マーケティングリーダーや開発ディレクターと協働し、FAM全体の事業設計を推進していただきます。</p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">必須条件（MUST）</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- 顧客課題を起点にしたサービス・企画立案、それに準ずるご経験</li>
+                    <li>- KPI設計および効果検証の実務経験</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">歓迎条件（WANT）</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- ユーザーリサーチ・データ分析に基づく企画立案経験</li>
+                    <li>- 開発・デザイン・ビジネス各部門と協働しサービスを形にした経験</li>
+                    <li>- UX/UIデザイン会社でのプロジェクトリード経験</li>
+                    <li>- スポーツ・食品・ウェルネス領域でのサービス企画経験</li>
+                    <li>- スタートアップでの事業開発・PM経験</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">求める人物像</h4>
+                <ul class="text-gray-400 text-sm space-y-1">
+                  <li>- アスリートの目標達成という"提供価値"を軸に、枠にとらわれず事業構想を描ける方</li>
+                  <li>- マーケットインの発想で、一次情報から戦略を立てられる方</li>
+                  <li>- 課題定義〜UX設計〜機能設計〜リリースまでの一連の流れを経験している方</li>
+                  <li>- チームの中間層として、ディレクター陣と若手をつなぐ立場を担える方</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">年収・待遇</h4>
+                <p class="text-gray-400 text-sm">※ご経験、スキルを考慮し決定いたします。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleCareerDetail(1)" id="career-toggle-btn-1" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">詳細を見る &#9660;</button>
+            <button onclick="openModal('entry-career')" class="flex-1 py-3 bg-copper hover:bg-copper/80 text-white rounded-lg font-bold transition text-sm">応募する &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Career 2: マーケティングリーダー -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-blue-500/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full">マーケティングリーダー</span>
+            <span class="text-gray-600 text-xs">正社員 ／ フルタイム</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">マーケティングリーダー（共創事業チーム「int」）</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">複数の大企業と協働し0→1の新規事業を推進する共創事業チーム「int」の中核を担うマーケティングリーダー。一流アスリート×スポーツ栄養士による新規事業「FAM」のデジタルマーケティング戦略をリードします。</p>
+
+          <div id="career-detail-2" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-blue-400 mb-3">企業説明</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">ARCHECOは、大企業の意思決定にまで深く関与し、そのスピードと質の向上に寄与することで、新たな事業が実際に立ち上がる状態をつくり出すことを目指しています。構想段階にとどまらず、検証・推進・改善までを一気通貫で担う事業化のケーパビリティを持ち、大企業が持つ資源と組織構造に即した「実装可能な戦略」を共に設計・実行します。</p>
+                <p class="text-gray-400 text-sm leading-relaxed mt-2">こうした活動を通じて、大企業の持つ社会的インパクトを最大化しながら、新たな視点で新規事業が継続的に生まれる環境を整える——それこそが、私たちが追求する「日本型スタートアップスタジオ」のあり方です。将来的には、日本独自の企業文化やアセット活用モデルを前提とした、持続可能なスタートアップ・エコシステムの構築に貢献していきます。</p>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-blue-400 mb-3">募集背景</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">共創事業チーム「int」では、複数の大企業と協働し、0→1の新規事業を生み出す事業を推進中です。その中核を担うマーケティングリーダーとして、戦略から実行まで自走できる実務家を募集します。代表的な事業のひとつが、一流アスリート×スポーツ栄養士による新規事業「FAM」。スポーツ・ウェルネス領域におけるサブスクリプション型プロダクトを中心に、デジタルマーケティング戦略をリードいただきます。</p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">必須条件（MUST）</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- デジタルマーケティング領域で1年以上の実務経験</li>
+                    <li>- チームやプロジェクトのリーダーとして成果を上げた経験</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">歓迎条件（WANT）</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- 数値分析（LTV・CACなど）をもとにPDCA改善提案の経験</li>
+                    <li>- サブスクリプションモデルのマーケティング・グロース経験</li>
+                    <li>- コミュニティ起点のユーザーリレーション構築経験</li>
+                    <li>- スタートアップや新規事業の立ち上げに初期メンバーとして参画（3〜5年程度）</li>
+                    <li>- 開発チームとの協業でプロダクト改善に落とし込んだ経験</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">求める人物像</h4>
+                <ul class="text-gray-400 text-sm space-y-1">
+                  <li>- 「待ち」ではなく、自ら起点となり事業を動かせる方</li>
+                  <li>- ユーザー視点と開発視点の両方を持ち、社内外の"翻訳者"になれる方</li>
+                  <li>- うまくいった施策だけでなく、失敗からも学びを蓄積できる方</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">年収・待遇</h4>
+                <p class="text-gray-400 text-sm">※ご経験、スキルを考慮し決定いたします。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleCareerDetail(2)" id="career-toggle-btn-2" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">詳細を見る &#9660;</button>
+            <button onclick="openModal('entry-career')" class="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition text-sm">応募する &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- インターン募集タブ -->
+    <div id="recruit-intern-tab" class="space-y-6 fade-in hidden">
 
       <!-- Intern 1: 訪日外国人観光体験革新プロジェクト -->
       <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/40 transition">
@@ -1164,6 +1324,44 @@ function toggleDetail(num) {
     btn.innerHTML = '\u8A73\u7D30\u3092\u898B\u308B \u25BC';
     btn.classList.add('text-gray-400', 'border-gray-700');
     btn.classList.remove('text-white', 'border-gray-500');
+  }
+}
+
+function toggleCareerDetail(num) {
+  var detail = document.getElementById('career-detail-' + num);
+  var btn = document.getElementById('career-toggle-btn-' + num);
+  if (detail.classList.contains('hidden')) {
+    detail.classList.remove('hidden');
+    btn.innerHTML = '閉じる \u25B2';
+    btn.classList.remove('text-gray-400', 'border-gray-700');
+    btn.classList.add('text-white', 'border-gray-500');
+  } else {
+    detail.classList.add('hidden');
+    btn.innerHTML = '\u8A73\u7D30\u3092\u898B\u308B \u25BC';
+    btn.classList.add('text-gray-400', 'border-gray-700');
+    btn.classList.remove('text-white', 'border-gray-500');
+  }
+}
+
+function switchRecruitTab(tab) {
+  var careerContent = document.getElementById('recruit-career');
+  var internContent = document.getElementById('recruit-intern-tab');
+  var careerTab = document.getElementById('tab-career');
+  var internTab = document.getElementById('tab-intern');
+  if (tab === 'career') {
+    careerContent.classList.remove('hidden');
+    internContent.classList.add('hidden');
+    careerTab.classList.add('border-copper', 'text-copper');
+    careerTab.classList.remove('border-transparent', 'text-gray-500');
+    internTab.classList.add('border-transparent', 'text-gray-500');
+    internTab.classList.remove('border-blue-500', 'text-blue-400');
+  } else {
+    internContent.classList.remove('hidden');
+    careerContent.classList.add('hidden');
+    internTab.classList.add('border-blue-500', 'text-blue-400');
+    internTab.classList.remove('border-transparent', 'text-gray-500');
+    careerTab.classList.add('border-transparent', 'text-gray-500');
+    careerTab.classList.remove('border-copper', 'text-copper');
   }
 }
 
