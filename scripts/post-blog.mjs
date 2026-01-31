@@ -25,6 +25,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createClient } from 'microcms-js-sdk';
 import mammoth from 'mammoth';
+import sharp from 'sharp';
 
 // ── 環境変数の読み込み ──
 function loadEnv() {
@@ -113,6 +114,56 @@ function parseArgs() {
   return opts;
 }
 
+// ── 画像の自動最適化 ──
+// アイキャッチ: 1200x630 (OGP推奨サイズ) にリサイズ + 明るさ・コントラスト補正
+// 本文内画像: 幅1000px以内にリサイズ + 補正
+async function optimizeImage(inputBuffer, { type = 'body', contentType = 'image/jpeg' } = {}) {
+  const isEyecatch = type === 'eyecatch';
+  const maxWidth = isEyecatch ? 1200 : 1000;
+  const maxHeight = isEyecatch ? 630 : undefined;
+
+  let pipeline = sharp(inputBuffer);
+
+  // メタデータ取得
+  const metadata = await pipeline.metadata();
+  const origWidth = metadata.width || 0;
+  const origHeight = metadata.height || 0;
+
+  console.log(`  最適化: ${origWidth}x${origHeight}`);
+
+  // リサイズ
+  if (isEyecatch) {
+    // アイキャッチ: 1200x630 にカバーフィット（中央クロップ）
+    pipeline = pipeline.resize(maxWidth, maxHeight, { fit: 'cover', position: 'centre' });
+    console.log(`  → ${maxWidth}x${maxHeight} にリサイズ (カバーフィット)`);
+  } else if (origWidth > maxWidth) {
+    // 本文画像: 幅のみ制限（アスペクト比維持）
+    pipeline = pipeline.resize(maxWidth, undefined, { fit: 'inside', withoutEnlargement: true });
+    console.log(`  → 幅${maxWidth}px にリサイズ`);
+  }
+
+  // 明るさ・コントラスト・彩度を自動補正
+  // modulate: brightness 1.05 (やや明るく), saturation 1.1 (やや鮮やかに)
+  // sharpen: 軽いシャープネスで見やすく
+  pipeline = pipeline
+    .modulate({ brightness: 1.05, saturation: 1.1 })
+    .sharpen({ sigma: 0.8 })
+    .normalise();  // ヒストグラム正規化（コントラスト自動調整）
+
+  // 出力フォーマット
+  if (contentType === 'image/png') {
+    pipeline = pipeline.png({ quality: 85, compressionLevel: 8 });
+  } else {
+    pipeline = pipeline.jpeg({ quality: 85, mozjpeg: true });
+  }
+
+  const outputBuffer = await pipeline.toBuffer();
+  const savings = Math.round((1 - outputBuffer.length / inputBuffer.length) * 100);
+  console.log(`  → ${(inputBuffer.length / 1024).toFixed(0)}KB → ${(outputBuffer.length / 1024).toFixed(0)}KB (${savings > 0 ? `-${savings}%` : `+${Math.abs(savings)}%`})`);
+
+  return outputBuffer;
+}
+
 // ── 画像をmicroCMSにアップロード ──
 async function uploadImageBuffer(buffer, contentType, fileName) {
   const res = await fetch(
@@ -137,13 +188,17 @@ async function uploadImageBuffer(buffer, contentType, fileName) {
   return data.url;
 }
 
-async function uploadImageFile(imagePath) {
+async function uploadImageFile(imagePath, { type = 'body' } = {}) {
   const ext = path.extname(imagePath).toLowerCase();
   const mimeMap = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif' };
   const contentType = mimeMap[ext] || 'image/jpeg';
   const fileName = path.basename(imagePath);
-  const imageData = fs.readFileSync(imagePath);
-  return uploadImageBuffer(imageData, contentType, fileName);
+  const rawData = fs.readFileSync(imagePath);
+
+  // 画像を自動最適化
+  console.log(`画像最適化中: ${fileName}`);
+  const optimized = await optimizeImage(rawData, { type, contentType });
+  return uploadImageBuffer(optimized, contentType, fileName);
 }
 
 // ── Word (.docx) ファイルを処理 ──
@@ -169,7 +224,10 @@ async function processDocx(filePath, dryRun) {
 
         try {
           const imgBuffer = await image.read();
-          const url = await uploadImageBuffer(Buffer.from(imgBuffer), image.contentType, fileName);
+          const rawBuffer = Buffer.from(imgBuffer);
+          console.log(`  画像最適化中: ${fileName}`);
+          const optimized = await optimizeImage(rawBuffer, { type: 'body', contentType: image.contentType });
+          const url = await uploadImageBuffer(optimized, image.contentType, fileName);
           console.log(`  画像アップロード: ${fileName} → ${url}`);
           embeddedImages.push({ fileName, contentType: image.contentType, url });
           return { src: url };
@@ -379,7 +437,7 @@ async function main() {
 
     if (!opts.dryRun) {
       try {
-        const url = await uploadImageFile(bestImage);
+        const url = await uploadImageFile(bestImage, { type: 'eyecatch' });
         eyecatch = url;
         console.log(`アップロード完了: ${url}`);
       } catch (e) {
