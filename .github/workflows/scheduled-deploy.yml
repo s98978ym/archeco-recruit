@@ -1,0 +1,14 @@
+name: Scheduled Redeploy
+
+# 毎日9時(JST)に自動デプロイ + 手動実行も可能
+on:
+  schedule:
+    - cron: '0 0 * * *'  # UTC 0:00 = JST 9:00
+  workflow_dispatch:       # 手動実行ボタン
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deploy
+        run: curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
