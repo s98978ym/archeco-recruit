@@ -131,6 +131,16 @@ async function optimizeImage(inputBuffer, { type = 'body', contentType = 'image/
 
   console.log(`  最適化: ${origWidth}x${origHeight}`);
 
+  // 自動トリミング: 黒帯・白枠・余白を自動除去
+  // trim() は画像端のほぼ均一な色を検出して切り取る
+  pipeline = pipeline.trim({ threshold: 30 });
+  const trimmed = await pipeline.toBuffer();
+  const trimMeta = await sharp(trimmed).metadata();
+  if (trimMeta.width !== origWidth || trimMeta.height !== origHeight) {
+    console.log(`  → 余白トリミング: ${origWidth}x${origHeight} → ${trimMeta.width}x${trimMeta.height}`);
+  }
+  pipeline = sharp(trimmed);
+
   // リサイズ
   if (isEyecatch) {
     // アイキャッチ: 1200x630 にカバーフィット（中央クロップ）
