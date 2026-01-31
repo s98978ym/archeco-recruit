@@ -3,11 +3,17 @@
  * microCMS ブログ記事自動登録スクリプト
  *
  * 使い方:
- *   node scripts/post-blog.mjs --text blog.txt --images img1.jpg img2.jpg [options]
+ *   node scripts/post-blog.mjs --text blog.docx --images eyecatch.jpg [options]
+ *   node scripts/post-blog.mjs --text blog.txt --images eyecatch.jpg [options]
+ *
+ * 対応ファイル:
+ *   .docx  Word ファイル (本文HTML + 埋め込み画像を自動抽出)
+ *   .txt   テキストファイル (簡易Markdown → HTML変換)
+ *   .md    Markdownファイル (同上)
  *
  * オプション:
- *   --text, -t        ブログ本文テキストファイル (必須)
- *   --images, -i      画像ファイル群 (複数指定可、最適なものをアイキャッチに選定)
+ *   --text, -t        ブログ本文ファイル (.docx / .txt / .md) (必須)
+ *   --images, -i      アイキャッチ用の画像ファイル (複数指定可、最適なものを選定)
  *   --title            タイトル (省略時: 本文から自動生成)
  *   --category, -c     カテゴリ: インタビュー / 社風 / 制度 / イベント (省略時: 本文から自動判定)
  *   --writer, -w       ライター名
@@ -18,9 +24,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createClient } from 'microcms-js-sdk';
+import mammoth from 'mammoth';
 
 // ── 環境変数の読み込み ──
-// .env ファイルがあれば手動パース (dotenv 不要)
 function loadEnv() {
   const envPath = path.resolve(process.cwd(), '.env');
   if (fs.existsSync(envPath)) {
@@ -81,7 +87,7 @@ function parseArgs() {
           opts.images.push(args[i]);
           i++;
         }
-        continue; // skip i++ at bottom
+        continue;
       case '--title':
         opts.title = args[++i];
         break;
@@ -107,19 +113,109 @@ function parseArgs() {
   return opts;
 }
 
-// ── 本文からタイトルを自動生成 ──
+// ── 画像をmicroCMSにアップロード ──
+async function uploadImageBuffer(buffer, contentType, fileName) {
+  const res = await fetch(
+    `https://${MICROCMS_SERVICE_DOMAIN}.microcms-management.io/api/v1/media`,
+    {
+      method: 'POST',
+      headers: {
+        'X-MICROCMS-API-KEY': MICROCMS_API_KEY,
+        'Content-Type': contentType,
+        'Content-Disposition': `attachment; filename="${fileName}"`,
+      },
+      body: buffer,
+    }
+  );
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`画像アップロード失敗 (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  return data.url;
+}
+
+async function uploadImageFile(imagePath) {
+  const ext = path.extname(imagePath).toLowerCase();
+  const mimeMap = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif' };
+  const contentType = mimeMap[ext] || 'image/jpeg';
+  const fileName = path.basename(imagePath);
+  const imageData = fs.readFileSync(imagePath);
+  return uploadImageBuffer(imageData, contentType, fileName);
+}
+
+// ── Word (.docx) ファイルを処理 ──
+async function processDocx(filePath, dryRun) {
+  const buffer = fs.readFileSync(filePath);
+  let imageIndex = 0;
+  const embeddedImages = [];
+
+  // mammoth で docx → HTML 変換（埋め込み画像もアップロード）
+  const result = await mammoth.convertToHtml(
+    { buffer },
+    {
+      convertImage: mammoth.images.imgElement(async (image) => {
+        imageIndex++;
+        const ext = image.contentType === 'image/png' ? '.png' : '.jpg';
+        const fileName = `docx-image-${imageIndex}${ext}`;
+
+        if (dryRun) {
+          console.log(`  画像検出: ${fileName} (${image.contentType})`);
+          embeddedImages.push({ fileName, contentType: image.contentType });
+          return { src: `[画像: ${fileName}]` };
+        }
+
+        try {
+          const imgBuffer = await image.read();
+          const url = await uploadImageBuffer(Buffer.from(imgBuffer), image.contentType, fileName);
+          console.log(`  画像アップロード: ${fileName} → ${url}`);
+          embeddedImages.push({ fileName, contentType: image.contentType, url });
+          return { src: url };
+        } catch (e) {
+          console.error(`  画像アップロード失敗: ${fileName} - ${e.message}`);
+          return { src: '' };
+        }
+      }),
+    }
+  );
+
+  // テキスト版を取得（カテゴリ判定・タイトル生成用）
+  const textResult = await mammoth.extractRawText({ buffer });
+  const rawText = textResult.value;
+
+  if (result.messages.length > 0) {
+    console.log('Word変換メッセージ:');
+    for (const msg of result.messages) {
+      console.log(`  ${msg.type}: ${msg.message}`);
+    }
+  }
+
+  return {
+    html: result.value,
+    rawText,
+    embeddedImages,
+  };
+}
+
+// ── テキスト/Markdown からプレーンテキストとHTMLを生成 ──
+function processText(filePath) {
+  const rawText = fs.readFileSync(filePath, 'utf-8');
+  const html = textToHtml(rawText);
+  return { html, rawText, embeddedImages: [] };
+}
+
+// ── プレーンテキストからタイトルを自動生成 ──
 function generateTitle(text) {
-  // 最初の行をタイトルとして使用 (空行スキップ)
   const lines = text.split('\n').filter((l) => l.trim().length > 0);
   if (lines.length === 0) return '無題の記事';
-
   let title = lines[0].replace(/^#+\s*/, '').trim();
-  // 長すぎる場合は切り詰め
   if (title.length > 60) title = title.slice(0, 57) + '...';
   return title;
 }
 
-// ── 本文からカテゴリを自動判定 ──
+// ── プレーンテキストからカテゴリを自動判定 ──
 function detectCategory(text) {
   const scores = {};
   for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
@@ -142,9 +238,8 @@ function detectCategory(text) {
   return best;
 }
 
-// ── 本文からリード文を自動生成 ──
+// ── プレーンテキストからリード文を自動生成 ──
 function generateDescription(text) {
-  // タイトル行を除いた最初の段落を抽出
   const lines = text.split('\n').filter((l) => l.trim().length > 0);
   const body = lines.slice(1).join(' ').replace(/\s+/g, ' ').trim();
   if (!body) return '';
@@ -161,7 +256,6 @@ function textToHtml(text) {
   for (const raw of lines) {
     const line = raw.trimEnd();
 
-    // 見出し
     const h3 = line.match(/^###\s+(.+)/);
     if (h3) { closeList(); html.push(`<h3>${esc(h3[1])}</h3>`); continue; }
     const h2 = line.match(/^##\s+(.+)/);
@@ -169,7 +263,6 @@ function textToHtml(text) {
     const h1 = line.match(/^#\s+(.+)/);
     if (h1) { closeList(); html.push(`<h1>${esc(h1[1])}</h1>`); continue; }
 
-    // リスト
     const li = line.match(/^[-*]\s+(.+)/);
     if (li) {
       if (!inList) { html.push('<ul>'); inList = true; }
@@ -179,10 +272,7 @@ function textToHtml(text) {
       closeList();
     }
 
-    // 空行
     if (line.trim() === '') { closeList(); continue; }
-
-    // 段落
     html.push(`<p>${esc(line)}</p>`);
   }
   closeList();
@@ -196,44 +286,11 @@ function textToHtml(text) {
   }
 }
 
-// ── 画像をアイキャッチとしてアップロード ──
-async function uploadImage(imagePath) {
-  const ext = path.extname(imagePath).toLowerCase();
-  const mimeMap = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif' };
-  const contentType = mimeMap[ext] || 'image/jpeg';
-  const fileName = path.basename(imagePath);
-
-  // microCMS Management API で画像アップロード
-  const imageData = fs.readFileSync(imagePath);
-
-  const res = await fetch(
-    `https://${MICROCMS_SERVICE_DOMAIN}.microcms-management.io/api/v1/media`,
-    {
-      method: 'POST',
-      headers: {
-        'X-MICROCMS-API-KEY': MICROCMS_API_KEY,
-        'Content-Type': contentType,
-        'Content-Disposition': `attachment; filename="${fileName}"`,
-      },
-      body: imageData,
-    }
-  );
-
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`画像アップロード失敗 (${res.status}): ${errText}`);
-  }
-
-  const data = await res.json();
-  return data.url;
-}
-
-// ── アイキャッチ画像を選定 (最も大きいファイルを選ぶヒューリスティック) ──
+// ── アイキャッチ画像を選定 ──
 function selectBestImage(imagePaths) {
   if (imagePaths.length === 0) return null;
   if (imagePaths.length === 1) return imagePaths[0];
 
-  // 最もファイルサイズが大きい画像を選定 (高解像度 = アイキャッチ向き)
   let best = imagePaths[0];
   let bestSize = 0;
   for (const p of imagePaths) {
@@ -255,49 +312,74 @@ async function main() {
   const opts = parseArgs();
 
   if (!opts.text) {
-    console.error('エラー: --text (-t) でブログ本文テキストファイルを指定してください。');
-    console.error('使い方: node scripts/post-blog.mjs --text blog.txt --images img1.jpg img2.jpg');
+    console.error('エラー: --text (-t) でブログ本文ファイルを指定してください。');
+    console.error('使い方:');
+    console.error('  node scripts/post-blog.mjs --text blog.docx --images eyecatch.jpg');
+    console.error('  node scripts/post-blog.mjs --text blog.txt --images eyecatch.jpg');
     process.exit(1);
   }
 
-  // テキスト読み込み
   if (!fs.existsSync(opts.text)) {
     console.error(`エラー: ファイルが見つかりません: ${opts.text}`);
     process.exit(1);
   }
-  const rawText = fs.readFileSync(opts.text, 'utf-8');
+
+  // ファイル形式に応じて処理
+  const ext = path.extname(opts.text).toLowerCase();
+  let html, rawText, embeddedImages;
+
+  console.log('═══════════════════════════════════════');
+  console.log('  microCMS ブログ記事 自動登録');
+  console.log('═══════════════════════════════════════');
+
+  if (ext === '.docx') {
+    console.log(`入力形式:     Word (.docx)`);
+    console.log(`ファイル:     ${opts.text}`);
+    console.log('───────────────────────────────────────');
+    console.log('Word ファイルを処理中...');
+    const result = await processDocx(opts.text, opts.dryRun);
+    html = result.html;
+    rawText = result.rawText;
+    embeddedImages = result.embeddedImages;
+    console.log(`埋め込み画像: ${embeddedImages.length}件`);
+  } else {
+    console.log(`入力形式:     テキスト (${ext})`);
+    console.log(`ファイル:     ${opts.text}`);
+    console.log('───────────────────────────────────────');
+    const result = processText(opts.text);
+    html = result.html;
+    rawText = result.rawText;
+    embeddedImages = result.embeddedImages;
+  }
 
   // フィールド自動生成
   const title = opts.title || generateTitle(rawText);
   const category = opts.category || detectCategory(rawText);
   const description = generateDescription(rawText);
-  const content = textToHtml(rawText);
 
   if (!CATEGORIES.includes(category)) {
     console.error(`エラー: カテゴリは次のいずれかを指定してください: ${CATEGORIES.join(', ')}`);
     process.exit(1);
   }
 
-  console.log('═══════════════════════════════════════');
-  console.log('  microCMS ブログ記事 自動登録');
-  console.log('═══════════════════════════════════════');
+  console.log('───────────────────────────────────────');
   console.log(`タイトル:     ${title}`);
   console.log(`カテゴリ:     ${category}`);
   console.log(`リード文:     ${description}`);
   console.log(`ライター:     ${opts.writer || '(未設定)'}`);
   console.log(`おすすめ:     ${opts.featured}`);
-  console.log(`画像数:       ${opts.images.length}`);
+  console.log(`アイキャッチ: ${opts.images.length}枚の候補`);
   console.log('───────────────────────────────────────');
 
   // アイキャッチ画像アップロード
   let eyecatch = undefined;
   if (opts.images.length > 0) {
     const bestImage = selectBestImage(opts.images);
-    console.log(`アイキャッチ: ${path.basename(bestImage)}`);
+    console.log(`アイキャッチ選定: ${path.basename(bestImage)}`);
 
     if (!opts.dryRun) {
       try {
-        const url = await uploadImage(bestImage);
+        const url = await uploadImageFile(bestImage);
         eyecatch = url;
         console.log(`アップロード完了: ${url}`);
       } catch (e) {
@@ -312,7 +394,7 @@ async function main() {
   // 記事データ組み立て
   const postData = {
     title,
-    content,
+    content: html,
     category: [category],
     description,
     is_featured: opts.featured,
