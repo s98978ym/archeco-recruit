@@ -632,7 +632,7 @@ input::placeholder, textarea::placeholder { color: #aaa !important; }
           <li class="flex items-center gap-2"><span class="w-1 h-1 bg-copper rounded-full flex-shrink-0"></span>UX/UIデザイナー</li>
           <li class="flex items-center gap-2"><span class="w-1 h-1 bg-copper rounded-full flex-shrink-0"></span>コンサルタント</li>
         </ul>
-        <button onclick="openModal('entry-career')" class="w-full py-3 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition">中途採用にエントリー &rarr;</button>
+        <a href="#intern" onclick="switchRecruitTab('career')" class="block w-full py-3 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition text-center">中途採用の詳細を見る &rarr;</a>
       </div>
 
       <!-- インターン採用 -->
@@ -645,7 +645,7 @@ input::placeholder, textarea::placeholder { color: #aaa !important; }
           <li class="flex items-center gap-2"><span class="w-1 h-1 bg-intern rounded-full flex-shrink-0"></span>時給1,200円・交通費支給</li>
           <li class="flex items-center gap-2"><span class="w-1 h-1 bg-intern rounded-full flex-shrink-0"></span>週2日〜 / リモート相談可</li>
         </ul>
-        <a href="#intern" class="block w-full py-3 bg-intern hover:bg-intern rounded-lg text-white font-bold transition text-center">インターン募集を見る &rarr;</a>
+        <a href="#intern" onclick="switchRecruitTab('intern-tab')" class="block w-full py-3 bg-intern hover:bg-intern rounded-lg text-white font-bold transition text-center">インターン募集を見る &rarr;</a>
       </div>
     </div>
   </div>
