@@ -1,9 +1,11 @@
 import { createClient } from 'microcms-js-sdk';
 
-export const client = createClient({
-  serviceDomain: import.meta.env.MICROCMS_SERVICE_DOMAIN,
-  apiKey: import.meta.env.MICROCMS_API_KEY,
-});
+const serviceDomain = import.meta.env.MICROCMS_SERVICE_DOMAIN || '';
+const apiKey = import.meta.env.MICROCMS_API_KEY || '';
+
+export const client = serviceDomain && apiKey
+  ? createClient({ serviceDomain, apiKey })
+  : null;
 
 export type Blog = {
   id: string;
@@ -27,9 +29,11 @@ export type BlogResponse = {
 };
 
 export async function getBlogs(queries?: Record<string, unknown>) {
+  if (!client) return { totalCount: 0, offset: 0, limit: 0, contents: [] } as BlogResponse;
   return await client.get<BlogResponse>({ endpoint: 'blogs', queries });
 }
 
 export async function getBlogDetail(contentId: string) {
+  if (!client) throw new Error('microCMS client is not configured');
   return await client.get<Blog>({ endpoint: 'blogs', contentId });
 }
