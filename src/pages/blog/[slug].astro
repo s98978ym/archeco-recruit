@@ -1,0 +1,201 @@
+---
+import { getBlogs, getBlogDetail } from '../../lib/microcms';
+import type { Blog } from '../../lib/microcms';
+
+export async function getStaticPaths() {
+  try {
+    const res = await getBlogs({ limit: 100, fields: 'id' });
+    return res.contents.map((blog) => ({ params: { slug: blog.id } }));
+  } catch (e) {
+    return [];
+  }
+}
+
+const { slug } = Astro.params;
+let blog: Blog;
+try {
+  blog = await getBlogDetail(slug as string);
+} catch (e) {
+  return Astro.redirect('/blog');
+}
+
+// Get related blogs (same category)
+let relatedBlogs: Blog[] = [];
+try {
+  const res = await getBlogs({
+    filters: `category[equals]${blog.category}[and]id[not_equals]${blog.id}`,
+    limit: 3,
+    orders: '-publishedAt',
+  });
+  relatedBlogs = res.contents;
+} catch (e) {}
+
+const publishedDate = new Date(blog.publishedAt).toLocaleDateString('ja-JP', {
+  year: 'numeric', month: 'long', day: 'numeric'
+});
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{blog.title} | Inside ARCHECO</title>
+<meta name="description" content={blog.description || blog.title}>
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:title" content={`${blog.title} | Inside ARCHECO`}>
+<meta property="og:description" content={blog.description || blog.title}>
+{blog.eyecatch && <meta property="og:image" content={blog.eyecatch.url} />}
+<meta property="og:type" content="article">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        copper: '#c9917a',
+        dark: '#0a0a0a',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        heading: ['"Space Grotesk"', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
+.bg-concrete {
+  background: linear-gradient(135deg, #1a1a1a 0%, #111 25%, #1c1c1c 50%, #0f0f0f 75%, #1a1a1a 100%);
+  background-size: 400px 400px;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+/* Blog content styles */
+.blog-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #333; }
+.blog-content h3 { font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+.blog-content p { color: #d1d5db; line-height: 1.9; margin-bottom: 1.25rem; }
+.blog-content ul, .blog-content ol { color: #d1d5db; margin-bottom: 1.25rem; padding-left: 1.5rem; }
+.blog-content ul { list-style-type: disc; }
+.blog-content ol { list-style-type: decimal; }
+.blog-content li { margin-bottom: 0.5rem; line-height: 1.8; }
+.blog-content a { color: #c9917a; text-decoration: underline; }
+.blog-content a:hover { opacity: 0.8; }
+.blog-content blockquote { border-left: 3px solid #c9917a; padding-left: 1rem; margin: 1.5rem 0; color: #9ca3af; font-style: italic; }
+.blog-content img { border-radius: 0.75rem; margin: 1.5rem 0; max-width: 100%; }
+.blog-content pre { background: #1a1a1a; border: 1px solid #333; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; margin-bottom: 1.25rem; }
+.blog-content code { font-size: 0.875rem; }
+.blog-content table { width: 100%; border-collapse: collapse; margin-bottom: 1.25rem; }
+.blog-content th, .blog-content td { border: 1px solid #333; padding: 0.5rem 1rem; text-align: left; }
+.blog-content th { background: #1a1a1a; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-dark/80 backdrop-blur-md border-b border-gray-800/50">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="/" class="text-xl font-bold font-heading tracking-tight">ARCHECO</a>
+    <nav class="flex items-center gap-6">
+      <a href="/" class="text-gray-400 hover:text-copper transition text-sm">採用トップ</a>
+      <a href="/blog" class="text-copper font-bold text-sm">ブログ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="pt-24">
+  <article class="max-w-3xl mx-auto px-6 py-16">
+    <!-- Eyecatch -->
+    {blog.eyecatch && (
+      <img src={blog.eyecatch.url} alt={blog.title} class="w-full h-64 md:h-96 object-cover rounded-xl mb-8" />
+    )}
+
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-xs text-copper font-bold bg-copper/10 px-3 py-1 rounded-full">{blog.category}</span>
+        <span class="text-sm text-gray-500">{publishedDate}</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold leading-tight">{blog.title}</h1>
+      {blog.writer && (
+        <div class="flex items-center gap-3 mt-6">
+          <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-sm font-bold">{blog.writer.charAt(0)}</div>
+          <div>
+            <p class="text-sm font-medium">{blog.writer}</p>
+            <p class="text-xs text-gray-500">ライター</p>
+          </div>
+        </div>
+      )}
+    </div>
+
+    <!-- Lead -->
+    {blog.description && (
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl p-6 mb-10">
+        <p class="text-gray-300 leading-relaxed">{blog.description}</p>
+      </div>
+    )}
+
+    <!-- Content -->
+    <div class="blog-content" set:html={blog.content} />
+
+    <!-- CTA -->
+    <div class="mt-16 bg-gray-900/70 border border-gray-800 rounded-xl p-8 text-center">
+      <h3 class="text-xl font-bold mb-3">ARCHECOで働くことに興味がありますか？</h3>
+      <p class="text-gray-400 mb-6">まずはカジュアルにお話ししましょう</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/#jobs" class="inline-flex items-center justify-center px-6 py-3 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition">募集要項を見る &rarr;</a>
+        <a href="/blog" class="inline-flex items-center justify-center px-6 py-3 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition">他の記事を読む</a>
+      </div>
+    </div>
+
+    <!-- Related -->
+    {relatedBlogs.length > 0 && (
+      <div class="mt-16">
+        <h3 class="text-xl font-bold mb-6 flex items-center"><span class="w-1 h-6 bg-copper mr-3 inline-block"></span>関連記事</h3>
+        <div class="grid sm:grid-cols-3 gap-6">
+          {relatedBlogs.map((related) => (
+            <a href={`/blog/${related.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/50 transition">
+              {related.eyecatch ? (
+                <img src={related.eyecatch.url} alt={related.title} class="w-full h-32 object-cover group-hover:scale-105 transition duration-500" loading="lazy" />
+              ) : (
+                <div class="w-full h-32 bg-gray-800 flex items-center justify-center"><span class="text-gray-600 text-2xl">📝</span></div>
+              )}
+              <div class="p-4">
+                <span class="text-xs text-copper font-bold">{related.category}</span>
+                <h4 class="text-sm font-bold mt-1 group-hover:text-copper transition line-clamp-2">{related.title}</h4>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+  </article>
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-gray-800 py-12">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
+      <div>
+        <a href="/" class="text-2xl font-bold font-heading">ARCHECO</a>
+        <p class="text-gray-500 mt-1">HUMBLE ROOTS, MASSIVE SPARKS.</p>
+      </div>
+      <nav class="flex flex-wrap gap-8 text-gray-400">
+        <a href="/" class="hover:text-copper transition">採用トップ</a>
+        <a href="/blog" class="hover:text-copper transition">ブログ</a>
+        <a href="mailto:info@archeco.co.jp" class="hover:text-copper transition">お問い合わせ</a>
+      </nav>
+    </div>
+    <p class="text-gray-600 text-sm">&copy; 2026 ARCHECO. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
