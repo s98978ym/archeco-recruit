@@ -1,0 +1,1502 @@
+---
+import { getBlogs } from '../lib/microcms';
+import type { Blog } from '../lib/microcms';
+
+let featuredBlogs: Blog[] = [];
+let latestBlogs: Blog[] = [];
+try {
+  const featuredRes = await getBlogs({ filters: 'is_featured[equals]true', limit: 3 });
+  featuredBlogs = featuredRes.contents;
+  const latestRes = await getBlogs({ orders: '-publishedAt', limit: 4 });
+  latestBlogs = latestRes.contents;
+} catch (e) {
+  // microCMS fetch may fail if no content exists yet
+}
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>int-incubation</title>
+<meta name="description" content="Archeo Int - 共創によるインキュベーションARC 採用サイト">
+<meta name="keywords" content="ARCHECO,アルチェコ,採用,求人,インターン,中途採用,事業開発,UXデザイナー,スタートアップ,原宿,新規事業,長期インターン">
+<meta name="author" content="株式会社ARCHECO">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://s98978ym.github.io/archeco-recruit/">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="format-detection" content="telephone=no">
+
+<!-- Open Graph Protocol -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="ARCHECO 採用情報 | インターン・中途採用募集">
+<meta property="og:description" content="東京・原宿から世界へインパクトを生み出すスタートアップスタジオで、自ら考え動ける仲間を募集中。事業開発・UXデザイナー・コンサルタントの中途採用、インターン4職種募集。">
+<meta property="og:url" content="https://s98978ym.github.io/archeco-recruit/">
+<meta property="og:site_name" content="ARCHECO">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://s98978ym.github.io/archeco-recruit/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ARCHECO 採用情報 | インターン・中途採用募集">
+<meta name="twitter:description" content="東京・原宿から世界へインパクトを生み出すスタートアップスタジオで、自ら考え動ける仲間を募集中。">
+<meta name="twitter:image" content="https://s98978ym.github.io/archeco-recruit/og-image.png">
+
+<!-- Structured Data: Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "株式会社ARCHECO",
+  "alternateName": "アルチェコ",
+  "url": "https://archeco.co.jp/",
+  "foundingDate": "2014-07",
+  "description": "日本型スタートアップスタジオとして、大企業の新規事業創出・サービス開発を支援",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "神宮前1-15-4 Barbizon76 3F",
+    "addressLocality": "渋谷区",
+    "addressRegion": "東京都",
+    "postalCode": "150-0001",
+    "addressCountry": "JP"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "info@archeco.co.jp",
+    "contactType": "recruiting",
+    "availableLanguage": "Japanese"
+  },
+  "numberOfEmployees": {
+    "@type": "QuantitativeValue",
+    "minValue": 11,
+    "maxValue": 30
+  }
+}
+</script>
+
+<!-- Structured Data: WebSite -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "ARCHECO 採用サイト",
+  "url": "https://s98978ym.github.io/archeco-recruit/"
+}
+</script>
+
+<!-- Structured Data: JobPosting - 中途採用（事業開発） -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "JobPosting",
+  "title": "事業開発・新規事業担当",
+  "description": "ARCHECOでは事業開発、UIUX、コンサルティング等の実務経験をお持ちの方を募集しています。即戦力として共に事業を推進いただける方を求めています。大手企業のUIUX改善や新規事業開発など、社会的インパクトの大きいプロジェクトに携われます。",
+  "identifier": { "@type": "PropertyValue", "name": "ARCHECO", "value": "career-bizdev-2026" },
+  "datePosted": "2026-01-30",
+  "validThrough": "2026-12-31",
+  "employmentType": "FULL_TIME",
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "株式会社ARCHECO",
+    "sameAs": "https://archeco.co.jp/"
+  },
+  "jobLocation": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "神宮前1-15-4 Barbizon76 3F",
+      "addressLocality": "渋谷区",
+      "addressRegion": "東京都",
+      "postalCode": "150-0001",
+      "addressCountry": "JP"
+    }
+  },
+  "jobLocationType": "TELECOMMUTE",
+  "applicantLocationRequirements": { "@type": "Country", "name": "Japan" },
+  "jobBenefits": "リモートワーク可、フレックス制度、書籍購入・セミナー参加支援",
+  "qualifications": "事業開発・新規事業・UIUX・コンサルティングの実務経験"
+}
+</script>
+
+<!-- Structured Data: JobPosting - インターン1 訪日外国人観光体験革新 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "JobPosting",
+  "title": "インターン - 訪日外国人観光体験革新プロジェクト（事業開発・パートナー営業）",
+  "description": "訪日外国人向けの新しい観光体験サービスの立ち上げを、大手旅行会社との共同プロジェクトとして推進。大企業との連携やパートナー開拓を通じて事業開発の実践力を磨けます。任せたい仕事：観光体験サービス企画、仮説検証、パートナー探索・提案・交渉、進捗管理。",
+  "identifier": { "@type": "PropertyValue", "name": "ARCHECO", "value": "intern-tourism-2026" },
+  "datePosted": "2026-01-30",
+  "validThrough": "2026-12-31",
+  "employmentType": ["INTERN", "PART_TIME"],
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "株式会社ARCHECO",
+    "sameAs": "https://archeco.co.jp/"
+  },
+  "jobLocation": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "神宮前1-15-4 Barbizon76 3F",
+      "addressLocality": "渋谷区",
+      "addressRegion": "東京都",
+      "postalCode": "150-0001",
+      "addressCountry": "JP"
+    }
+  },
+  "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "JPY",
+    "value": { "@type": "QuantitativeValue", "value": 1200, "unitText": "HOUR" }
+  },
+  "workHours": "週2日〜、1日7時間〜、9:00-20:00",
+  "jobBenefits": "交通費支給（月34,000円まで）、リモート一部可",
+  "qualifications": "主体性と実行力、コミュニケーション能力、フットワークの軽さ"
+}
+</script>
+
+<!-- Structured Data: JobPosting - インターン2 SNSコンテンツクリエイター -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "JobPosting",
+  "title": "インターン - SNSコンテンツクリエイター（新規事業FAM事業マーケティング）",
+  "description": "一流アスリートと栄養士による新規事業（FAM事業）のマーケティング戦略立案から実行、効果測定までを担当。YouTube・Instagram向けコンテンツの企画・制作を通じてマーケティングスキルを磨けます。動画編集、サムネイル作成、コンテンツカレンダー管理、KPI設定。",
+  "identifier": { "@type": "PropertyValue", "name": "ARCHECO", "value": "intern-sns-creator-2026" },
+  "datePosted": "2026-01-30",
+  "validThrough": "2026-12-31",
+  "employmentType": ["INTERN", "PART_TIME"],
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "株式会社ARCHECO",
+    "sameAs": "https://archeco.co.jp/"
+  },
+  "jobLocation": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "神宮前1-15-4 Barbizon76 3F",
+      "addressLocality": "渋谷区",
+      "addressRegion": "東京都",
+      "postalCode": "150-0001",
+      "addressCountry": "JP"
+    }
+  },
+  "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "JPY",
+    "value": { "@type": "QuantitativeValue", "value": 1200, "unitText": "HOUR" }
+  },
+  "workHours": "週2日〜、1日4時間〜、9:00-21:00",
+  "jobBenefits": "交通費支給（月34,000円まで）、リモート一部可（月1日出社）",
+  "qualifications": "SNSアカウント運用経験、動画編集経験"
+}
+</script>
+
+<!-- Structured Data: JobPosting - インターン3 スポーツ×栄養BizDev -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "JobPosting",
+  "title": "インターン - スポーツ×栄養ビジネスデベロップメント",
+  "description": "超一流アスリートとのコラボ企画立案から栄養士ネットワークの構築まで。スポーツ・栄養領域の新規事業開発に参画し、0→1のビジネス立ち上げプロセスを一気通貫で経験。アスリートコラボ企画、栄養士アライアンス開拓、大手食品メーカーとの共同プロジェクト支援。",
+  "identifier": { "@type": "PropertyValue", "name": "ARCHECO", "value": "intern-sports-nutrition-2026" },
+  "datePosted": "2026-01-30",
+  "validThrough": "2026-12-31",
+  "employmentType": ["INTERN", "PART_TIME"],
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "株式会社ARCHECO",
+    "sameAs": "https://archeco.co.jp/"
+  },
+  "jobLocation": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "神宮前1-15-4 Barbizon76 3F",
+      "addressLocality": "渋谷区",
+      "addressRegion": "東京都",
+      "postalCode": "150-0001",
+      "addressCountry": "JP"
+    }
+  },
+  "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "JPY",
+    "value": { "@type": "QuantitativeValue", "value": 1200, "unitText": "HOUR" }
+  },
+  "workHours": "週2日〜、1日4時間〜",
+  "jobBenefits": "交通費支給（月34,000円まで）、リモート一部可（月水いずれか出社）",
+  "qualifications": "自走力・主体性、スポーツ/栄養分野への強い関心、コミュニケーション力、マルチタスク力"
+}
+</script>
+
+<!-- Structured Data: JobPosting - インターン4 大企業変革プロジェクト -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "JobPosting",
+  "title": "インターン - 大企業変革プロジェクト（新規事業企画・BizDev/マーケ/エンジニア/デザイン）",
+  "description": "大企業と共創する新規事業プロジェクトの推進に参画。ビジネス開発、マーケティング、プロダクト開発、デザインの4職種から選択可能。事業企画からパートナー企業の開拓まで最前線で経験できます。市場調査、提案資料作成、MVP設計開発、UXリサーチ。",
+  "identifier": { "@type": "PropertyValue", "name": "ARCHECO", "value": "intern-enterprise-2026" },
+  "datePosted": "2026-01-30",
+  "validThrough": "2026-12-31",
+  "employmentType": ["INTERN", "PART_TIME"],
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "株式会社ARCHECO",
+    "sameAs": "https://archeco.co.jp/"
+  },
+  "jobLocation": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "神宮前1-15-4 Barbizon76 3F",
+      "addressLocality": "渋谷区",
+      "addressRegion": "東京都",
+      "postalCode": "150-0001",
+      "addressCountry": "JP"
+    }
+  },
+  "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "JPY",
+    "value": { "@type": "QuantitativeValue", "value": 1200, "unitText": "HOUR" }
+  },
+  "workHours": "週3日〜、1日5時間〜、10:00-20:00",
+  "jobBenefits": "交通費支給（月34,000円まで）、リモート一部可（週1出社必須）",
+  "qualifications": "コミュニケーション・対人関係スキル、目標達成への意欲、プレゼン資料作成スキル、プロジェクトマネジメント力"
+}
+</script>
+
+<!-- Structured Data: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "ARCHECO", "item": "https://archeco.co.jp/" },
+    { "@type": "ListItem", "position": 2, "name": "採用情報", "item": "https://s98978ym.github.io/archeco-recruit/" }
+  ]
+}
+</script>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="//docs.google.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        copper: '#c9917a',
+        dark: '#0a0a0a',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        heading: ['"Space Grotesk"', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
+
+/* Concrete texture backgrounds */
+.bg-concrete {
+  background: linear-gradient(135deg, #1a1a1a 0%, #111 25%, #1c1c1c 50%, #0f0f0f 75%, #1a1a1a 100%);
+  background-size: 400px 400px;
+}
+.bg-concrete-2 {
+  background: linear-gradient(160deg, #161616 0%, #0e0e0e 30%, #191919 60%, #0d0d0d 100%);
+}
+.bg-overlay {
+  background: linear-gradient(135deg, rgba(10,10,10,0.92) 0%, rgba(20,20,20,0.95) 50%, rgba(10,10,10,0.92) 100%);
+}
+
+/* Animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.active {
+  opacity: 1; pointer-events: auto;
+}
+.modal-content {
+  background: #1a1a1a; border: 1px solid #333; border-radius: 12px;
+  max-width: 560px; width: 90%; max-height: 90vh; overflow-y: auto;
+  transform: scale(0.95); transition: transform 0.3s ease;
+}
+.modal-overlay.active .modal-content {
+  transform: scale(1);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- Section 0: Hidden spacer -->
+<section class="h-0"></section>
+
+<!-- Section 1: Hero -->
+<section id="hero" class="min-h-screen flex items-center justify-center bg-concrete relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40"></div>
+  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center fade-in">
+    <div class="inline-flex items-center mb-8">
+      <span class="w-1 h-6 bg-copper mr-3 inline-block"></span>
+      <span class="text-sm tracking-[0.3em] text-gray-400 uppercase">Recruitment Message</span>
+    </div>
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8">
+      ARCHECOは<br>あなたにとって<br><span class="text-copper">良い職場ではない</span><br>かもしれません
+    </h1>
+    <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+      私たちは、指示を待つ人ではなく、自ら考え動く人を求めています。<br>
+      失敗を恐れず挑戦し、泥臭く実行できる人を求めています。
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#ceo-message" class="inline-flex items-center justify-center px-8 py-4 bg-gray-800 hover:bg-gray-700 rounded-lg text-white font-medium transition">私たちについて知る <span class="ml-2">&rarr;</span></a>
+      <a href="#jobs" class="inline-flex items-center justify-center px-8 py-4 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition">エントリーする</a>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: 代表メッセージ -->
+<section id="ceo-message" class="bg-concrete-2 py-24">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="fade-in">
+      <div class="flex items-center mb-12">
+        <span class="w-1 h-10 bg-copper mr-4 inline-block"></span>
+        <h2 class="text-3xl md:text-4xl font-bold">代表メッセージ</h2>
+      </div>
+
+      <div class="space-y-8 text-gray-300 leading-relaxed text-base md:text-lg">
+        <p>私たちARCHECOは、<span class="text-copper font-bold">「HUMBLE ROOTS, MASSIVE SPARKS.」</span>というビジョンを掲げています。東京の原宿から、世界を驚かせるようなインパクトを生み出す。それが私たちの存在意義です。大企業の看板や潤沢なリソースがなくても、知恵と情熱と実行力で勝負できると信じています。</p>
+
+        <p>採用は、一緒に新しい価値を生み出していく仲間探しです。スキルや経歴だけでなく、「この人と一緒に働きたい」「この人なら困難な状況でも一緒に乗り越えられる」と思える人を探しています。だからこそ、私たちは飾らない言葉で、ありのままの姿をお伝えしたいと思います。</p>
+
+        <p>しかし、正直に申し上げます。<span class="text-copper font-bold">ARCHECOは万人にとって良い会社ではありません。</span>安定した大企業のような環境を求める方、決められたことだけをこなしたい方には向いていません。逆に、自分の頭で考え、自分の足で動き、自分の手で未来を切り拓きたい方には、これ以上ない環境を提供できると自負しています。</p>
+      </div>
+
+      <hr class="border-gray-800 my-12">
+
+      <h3 class="text-2xl md:text-3xl text-copper italic font-semibold mb-6">私たちが求める人材</h3>
+      <p class="text-gray-300 leading-relaxed mb-10">ARCHECOは、ただ優秀なだけではなく、以下の特性が抜きん出て強い人には最高の環境です。逆に言えば、これらの特性がない場合はお互いにとって不幸な結果になりかねません。</p>
+
+      <div class="space-y-8 mb-12">
+        <div class="border-l-2 border-copper pl-6">
+          <h4 class="text-xl font-bold mb-2">自律的に動ける力</h4>
+          <p class="text-gray-400">指示を待つのではなく、目標に向かって自ら最適な道を切り開ける人。正解がない中でも仮説を立て、検証し、前に進める力を持っている人を求めています。</p>
+        </div>
+        <div class="border-l-2 border-copper pl-6">
+          <h4 class="text-xl font-bold mb-2">野心と野生感</h4>
+          <p class="text-gray-400">ビビりながらもアタックし、失敗から学び、再度ぶつかってこれる人。スマートさだけでなく、泥臭さと貪欲さを兼ね備えた人を歓迎します。</p>
+        </div>
+        <div class="border-l-2 border-copper pl-6">
+          <h4 class="text-xl font-bold mb-2">構想から実行まで</h4>
+          <p class="text-gray-400">戦略を描くだけでなく、泥臭く現場で実行できる人。美しい計画書を作ることよりも、不完全でも動くプロトタイプを作り、顧客の前に立てる人を評価します。</p>
+        </div>
+      </div>
+
+      <h3 class="text-2xl md:text-3xl text-copper italic font-semibold mb-6">私たちが提供する環境</h3>
+      <div class="space-y-6 text-gray-300 leading-relaxed mb-12">
+        <p>ARCHECOでは、意思決定のスピードを最重要視しています。大企業では何週間もかかる意思決定が、ARCHECOでは数時間で行われます。あなたのアイデアが良ければ、すぐに実行に移せる環境があります。</p>
+        <p>また、一人ひとりの裁量が非常に大きいのが特徴です。自分のプロジェクトを自分の判断で推進できます。もちろん、その分責任も伴いますが、それこそが成長の源泉だと考えています。</p>
+        <p>多様なバックグラウンドを持つメンバーが、フラットな関係性の中で切磋琢磨しています。年齢や経歴に関係なく、良いアイデアと実行力が評価される文化です。</p>
+      </div>
+
+      <div class="text-gray-300 leading-relaxed mb-12">
+        <p>選考では、あなたのこれまでの経験だけでなく、これからの可能性を重視します。完璧な経歴は必要ありません。大切なのは、困難に立ち向かう覚悟と、成長し続ける意志です。少しでも共感いただけたなら、ぜひエントリーしてください。あなたとお会いできることを楽しみにしています。</p>
+      </div>
+
+      <div class="text-right text-gray-300">
+        <p class="font-bold text-lg">ARCHECO 代表</p>
+        <p class="text-gray-400 mt-1">採用チーム一同</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: ビジョン -->
+<section id="vision" class="py-24 bg-overlay relative">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-12 mb-20 fade-in">
+      <div>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          HUMBLE ROOTS,<br>MASSIVE SPARKS.
+        </h2>
+      </div>
+      <div class="flex flex-col justify-center">
+        <span class="text-sm tracking-[0.2em] text-copper uppercase mb-4">目指す理想の姿</span>
+        <h3 class="text-2xl md:text-3xl font-bold leading-snug">
+          研ぎ澄ました価値で<br>世界をひっくり返す<br>ジャイアントキリングの体現
+        </h3>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="flex items-center mb-4">
+        <span class="w-1 h-8 bg-copper mr-4 inline-block"></span>
+        <h3 class="text-2xl md:text-3xl font-bold">バリュー</h3>
+      </div>
+      <p class="text-gray-400 mb-12 ml-5">大切にする価値観や行動指針（苦手でも守るべき部分）</p>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Value 01 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><span class="text-copper text-sm font-bold">01</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">MVA（Most Valuable Action）を志向する</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">常に最もインパクトのある行動を選び取る。忙しさに流されず、本当に価値ある仕事に集中する。</p>
+        </div>
+        <!-- Value 02 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span class="text-copper text-sm font-bold">02</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">外交的振る舞いをする</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">社内外問わず、誠実で丁寧なコミュニケーションを心がける。信頼関係を築くことが全ての土台になる。</p>
+        </div>
+        <!-- Value 03 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><span class="text-copper text-sm font-bold">03</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">しつこく真剣に粘る</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">簡単に諦めない。壁にぶつかっても、別の角度から何度でもアプローチし、突破口を見つけ出す。</p>
+        </div>
+        <!-- Value 04 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="text-copper text-sm font-bold">04</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">本気のポジショントークで磨く</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">自分の意見を持ち、建設的に議論する。批判ではなく提案で、チーム全体の思考を研ぎ澄ます。</p>
+        </div>
+        <!-- Value 05 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="text-copper text-sm font-bold">05</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">仲間を信頼する</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">一人で全てを抱え込まない。仲間の力を信じ、頼り、共に高め合うことで、個人では到達できない成果を出す。</p>
+        </div>
+        <!-- Value 06 -->
+        <div class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 hover:border-copper/40 transition">
+          <div class="flex items-center gap-3 mb-3"><div class="text-copper"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div><span class="text-copper text-sm font-bold">06</span></div>
+          <h4 class="text-lg font-bold mt-1 mb-3">適度な楽観性を持つ</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">困難な状況でも「なんとかなる」と前向きに捉える力。悲観は気分、楽観は意志。意志を持って未来を信じる。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: 私たちの環境 -->
+<section id="environment" class="py-24 bg-concrete">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-3xl md:text-4xl font-bold">私たちの環境</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-6 fade-in">
+      <!-- Card 1 -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden">
+        <div class="h-1 bg-blue-500"></div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-6">裁量と自由</h3>
+          <ul class="space-y-4 text-gray-400">
+            <li class="flex items-start"><span class="w-1 h-1 bg-blue-500 rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>プロジェクトの進め方は自分で決める。マイクロマネジメントは一切ありません。</li>
+            <li class="flex items-start"><span class="w-1 h-1 bg-blue-500 rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>リモートワーク・フレックス制度を活用し、最もパフォーマンスが出る働き方を選択できます。</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden">
+        <div class="h-1 bg-copper"></div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-6">本気の挑戦</h3>
+          <ul class="space-y-4 text-gray-400">
+            <li class="flex items-start"><span class="w-1 h-1 bg-copper rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>大手企業のUIUX改善や新規事業開発など、社会的インパクトの大きいプロジェクトに携われます。</li>
+            <li class="flex items-start"><span class="w-1 h-1 bg-copper rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>自社プロダクトの立ち上げにも参画でき、0→1のフェーズを経験できます。</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden">
+        <div class="h-1 bg-blue-500"></div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-6">成長機会</h3>
+          <ul class="space-y-4 text-gray-400">
+            <li class="flex items-start"><span class="w-1 h-1 bg-blue-500 rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>経営陣との距離が近く、経営視点でのフィードバックを日常的に受けられます。</li>
+            <li class="flex items-start"><span class="w-1 h-1 bg-blue-500 rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>書籍購入・セミナー参加の支援制度があり、学びへの投資を惜しみません。</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden">
+        <div class="h-1 bg-copper"></div>
+        <div class="p-8">
+          <h3 class="text-xl font-bold mb-6">多様性とフラットさ</h3>
+          <ul class="space-y-4 text-gray-400">
+            <li class="flex items-start"><span class="w-1 h-1 bg-copper rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>デザイナー、エンジニア、コンサルタントなど多様なバックグラウンドのメンバーが在籍。</li>
+            <li class="flex items-start"><span class="w-1 h-1 bg-copper rounded-full mr-3 mt-2.5 inline-block flex-shrink-0"></span>役職に関係なく「さん」付けで呼び合うフラットな文化。良いアイデアは誰からでも歓迎されます。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: 募集要項 -->
+<section id="jobs" class="py-24 bg-concrete-2">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <div class="inline-flex items-center mb-6">
+        <span class="w-1 h-8 bg-copper mr-4 inline-block"></span>
+        <h2 class="text-3xl md:text-4xl font-bold">募集要項</h2>
+      </div>
+      <p class="text-gray-400 text-lg">中途採用・インターン採用の2つの応募区分がございます</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto fade-in">
+      <!-- 中途採用 -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl p-8 hover:border-copper/50 transition group">
+        <div class="h-1 bg-copper rounded-full mb-6"></div>
+        <h3 class="text-2xl font-bold mb-3">中途採用</h3>
+        <p class="text-gray-400 mb-6 leading-relaxed">事業開発、UIUX、コンサルティング等の実務経験をお持ちの方。即戦力として共に事業を推進いただける方を募集しています。</p>
+        <ul class="text-gray-500 text-sm space-y-2 mb-8 list-none">
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-copper rounded-full flex-shrink-0"></span>事業開発・新規事業担当</li>
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-copper rounded-full flex-shrink-0"></span>UX/UIデザイナー</li>
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-copper rounded-full flex-shrink-0"></span>コンサルタント</li>
+        </ul>
+        <a href="#intern" onclick="switchRecruitTab('career')" class="block w-full py-3 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition text-center">中途採用の詳細を見る &rarr;</a>
+      </div>
+
+      <!-- インターン採用 -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl p-8 hover:border-blue-500/50 transition group">
+        <div class="h-1 bg-blue-500 rounded-full mb-6"></div>
+        <h3 class="text-2xl font-bold mb-3">インターン採用</h3>
+        <p class="text-gray-400 mb-6 leading-relaxed">学生・若手の方向け。実践的な長期インターンシップで、新規事業開発の最前線を経験できます。</p>
+        <ul class="text-gray-500 text-sm space-y-2 mb-8 list-none">
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-blue-500 rounded-full flex-shrink-0"></span>4つのプロジェクトで募集中</li>
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-blue-500 rounded-full flex-shrink-0"></span>時給1,200円・交通費支給</li>
+          <li class="flex items-center gap-2"><span class="w-1 h-1 bg-blue-500 rounded-full flex-shrink-0"></span>週2日〜 / リモート相談可</li>
+        </ul>
+        <a href="#intern" onclick="switchRecruitTab('intern-tab')" class="block w-full py-3 bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-bold transition text-center">インターン募集を見る &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 6: 採用情報（タブ切替: 中途 / インターン） -->
+<section id="intern" class="py-24 bg-overlay">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-16 fade-in">
+      <div class="flex items-center mb-6">
+        <span class="w-1 h-10 bg-copper mr-4 inline-block"></span>
+        <h2 class="text-3xl md:text-4xl font-bold">採用情報</h2>
+      </div>
+      <!-- タブ切替 -->
+      <div class="flex border-b border-gray-700 ml-5">
+        <button id="tab-career" onclick="switchRecruitTab('career')" class="px-6 py-3 text-lg font-bold border-b-2 border-copper text-copper transition">中途採用</button>
+        <button id="tab-intern" onclick="switchRecruitTab('intern-tab')" class="px-6 py-3 text-lg font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-300 transition">インターン募集</button>
+      </div>
+    </div>
+
+    <!-- 中途採用タブ -->
+    <div id="recruit-career" class="space-y-6 fade-in">
+
+      <!-- Career 1: 事業開発ディレクター -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-copper/20 text-copper text-xs font-bold rounded-full">事業開発ディレクター</span>
+            <span class="text-gray-600 text-xs">正社員 ／ フルタイム</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">事業開発ディレクター（サービス企画）</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">スポーツ×栄養×ウェルネス領域の新規事業「FAM」のPMFフェーズを牽引。サービスのコンセプト立案からUX設計、要件定義、改善までを一気通貫でリードするポジションです。</p>
+
+          <div id="career-detail-1" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-copper mb-3">企業説明</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">ARCHECOは、大企業の意思決定にまで深く関与し、そのスピードと質の向上に寄与することで、新たな事業が実際に立ち上がる状態をつくり出すことを目指しています。構想段階にとどまらず、検証・推進・改善までを一気通貫で担う事業化のケーパビリティを持ち、大企業が持つ資源と組織構造に即した「実装可能な戦略」を共に設計・実行します。</p>
+                <p class="text-gray-400 text-sm leading-relaxed mt-2">こうした活動を通じて、大企業の持つ社会的インパクトを最大化しながら、新たな視点で新規事業が継続的に生まれる環境を整える——それこそが、私たちが追求する「日本型スタートアップスタジオ」のあり方です。</p>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-copper mb-3">募集背景</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">「共創によって、日本の新規事業を再定義する」というミッションのもと、大企業やトップアスリートと共に、社会価値と事業成長の両立に挑戦しています。現在、スポーツ×栄養×ウェルネス領域の新規事業「FAM」がPMFフェーズを迎えており、サービス価値の磨き込みと体験設計を加速させるため、顧客起点で構想を形にできるサービス企画ポジションを募集しています。</p>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-copper mb-3">業務内容</h4>
+                <p class="text-gray-400 text-sm leading-relaxed mb-3">「FAM」では、一流アスリートと著名栄養士が共創する新しいウェルネス体験を提供しています。単なるプランナーではなく、一次情報を自ら取りに行き、顧客の課題構造を読み解きながら、体験価値と事業成長を両立する"事業開発ディレクター"として活躍いただきます。</p>
+                <ul class="text-gray-400 text-sm space-y-2 leading-relaxed">
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>共創新事業「FAM」の検証〜PMFフェーズにおけるサービス企画立案・実行</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>エンドユーザー・パートナー（アスリート、栄養士、企業等）とのヒアリング・仮説検証</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>顧客課題を起点とした体験設計・サービス仕様策定</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>プロダクト開発チームへの要件定義・ディレクション</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>新機能・改善案の提案および優先度設計</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>KPI設計・効果検証・施策改善（PDCA推進）</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>チーム内外（マーケ・開発・パートナー）の調整・ファシリテーション</li>
+                </ul>
+                <p class="text-gray-500 text-xs mt-3">※マーケティングリーダーや開発ディレクターと協働し、FAM全体の事業設計を推進していただきます。</p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">必須条件（MUST）</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- 顧客課題を起点にしたサービス・企画立案、それに準ずるご経験</li>
+                    <li>- KPI設計および効果検証の実務経験</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">歓迎条件（WANT）</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- ユーザーリサーチ・データ分析に基づく企画立案経験</li>
+                    <li>- 開発・デザイン・ビジネス各部門と協働しサービスを形にした経験</li>
+                    <li>- UX/UIデザイン会社でのプロジェクトリード経験</li>
+                    <li>- スポーツ・食品・ウェルネス領域でのサービス企画経験</li>
+                    <li>- スタートアップでの事業開発・PM経験</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">求める人物像</h4>
+                <ul class="text-gray-400 text-sm space-y-1">
+                  <li>- アスリートの目標達成という"提供価値"を軸に、枠にとらわれず事業構想を描ける方</li>
+                  <li>- マーケットインの発想で、一次情報から戦略を立てられる方</li>
+                  <li>- 課題定義〜UX設計〜機能設計〜リリースまでの一連の流れを経験している方</li>
+                  <li>- チームの中間層として、ディレクター陣と若手をつなぐ立場を担える方</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">年収・待遇</h4>
+                <p class="text-gray-400 text-sm">※ご経験、スキルを考慮し決定いたします。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleCareerDetail(1)" id="career-toggle-btn-1" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">詳細を見る &#9660;</button>
+            <button onclick="openModal('entry-career')" class="flex-1 py-3 bg-copper hover:bg-copper/80 text-white rounded-lg font-bold transition text-sm">応募する &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Career 2: マーケティングリーダー -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-blue-500/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full">マーケティングリーダー</span>
+            <span class="text-gray-600 text-xs">正社員 ／ フルタイム</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">マーケティングリーダー（共創事業チーム「int」）</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">複数の大企業と協働し0→1の新規事業を推進する共創事業チーム「int」の中核を担うマーケティングリーダー。一流アスリート×スポーツ栄養士による新規事業「FAM」のデジタルマーケティング戦略をリードします。</p>
+
+          <div id="career-detail-2" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-blue-400 mb-3">企業説明</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">ARCHECOは、大企業の意思決定にまで深く関与し、そのスピードと質の向上に寄与することで、新たな事業が実際に立ち上がる状態をつくり出すことを目指しています。構想段階にとどまらず、検証・推進・改善までを一気通貫で担う事業化のケーパビリティを持ち、大企業が持つ資源と組織構造に即した「実装可能な戦略」を共に設計・実行します。</p>
+                <p class="text-gray-400 text-sm leading-relaxed mt-2">こうした活動を通じて、大企業の持つ社会的インパクトを最大化しながら、新たな視点で新規事業が継続的に生まれる環境を整える——それこそが、私たちが追求する「日本型スタートアップスタジオ」のあり方です。将来的には、日本独自の企業文化やアセット活用モデルを前提とした、持続可能なスタートアップ・エコシステムの構築に貢献していきます。</p>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-blue-400 mb-3">募集背景</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">共創事業チーム「int」では、複数の大企業と協働し、0→1の新規事業を生み出す事業を推進中です。その中核を担うマーケティングリーダーとして、戦略から実行まで自走できる実務家を募集します。代表的な事業のひとつが、一流アスリート×スポーツ栄養士による新規事業「FAM」。スポーツ・ウェルネス領域におけるサブスクリプション型プロダクトを中心に、デジタルマーケティング戦略をリードいただきます。</p>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">必須条件（MUST）</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- デジタルマーケティング領域で1年以上の実務経験</li>
+                    <li>- チームやプロジェクトのリーダーとして成果を上げた経験</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">歓迎条件（WANT）</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- 数値分析（LTV・CACなど）をもとにPDCA改善提案の経験</li>
+                    <li>- サブスクリプションモデルのマーケティング・グロース経験</li>
+                    <li>- コミュニティ起点のユーザーリレーション構築経験</li>
+                    <li>- スタートアップや新規事業の立ち上げに初期メンバーとして参画（3〜5年程度）</li>
+                    <li>- 開発チームとの協業でプロダクト改善に落とし込んだ経験</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">求める人物像</h4>
+                <ul class="text-gray-400 text-sm space-y-1">
+                  <li>- 「待ち」ではなく、自ら起点となり事業を動かせる方</li>
+                  <li>- ユーザー視点と開発視点の両方を持ち、社内外の"翻訳者"になれる方</li>
+                  <li>- うまくいった施策だけでなく、失敗からも学びを蓄積できる方</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">年収・待遇</h4>
+                <p class="text-gray-400 text-sm">※ご経験、スキルを考慮し決定いたします。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleCareerDetail(2)" id="career-toggle-btn-2" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">詳細を見る &#9660;</button>
+            <button onclick="openModal('entry-career')" class="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition text-sm">応募する &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- インターン募集タブ -->
+    <div id="recruit-intern-tab" class="space-y-6 fade-in hidden">
+
+      <!-- Intern 1: 訪日外国人観光体験革新プロジェクト -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-copper/20 text-copper text-xs font-bold rounded-full">事業開発・パートナー営業</span>
+            <span class="text-gray-600 text-xs">最低6ヶ月 ／ 週2日〜</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">訪日外国人観光体験革新プロジェクト</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">訪日外国人向けの新しい観光体験サービスの立ち上げを、大手旅行会社との共同プロジェクトとして推進します。大企業との連携やパートナー開拓を通じて、事業開発の実践力を磨けます。</p>
+
+          <!-- 詳細トグル -->
+          <div id="intern-detail-1" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-copper mb-3">任せたい仕事</h4>
+                <ul class="text-gray-400 text-sm space-y-2 leading-relaxed">
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>訪日外国人観光客のニーズや行動を深く掘り下げ、新たな観光体験サービスを企画</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>仮説検証（ユーザーインタビュー、プロトタイプ作成）の実施</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>サービスコンセプトやビジネスモデルを具体化し提案資料として作成</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ホテル、観光施設、交通機関などのパートナー候補を探索</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>パートナー企業への企画提案、打ち合わせ、条件交渉、契約調整</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>プロジェクト全体の進捗管理と資料作成</li>
+                </ul>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">必須条件</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- 主体性と実行力</li>
+                    <li>- コミュニケーション能力</li>
+                    <li>- フットワークの軽さ</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">歓迎条件</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- 語学力</li>
+                    <li>- プレゼンテーション経験</li>
+                    <li>- 旅行・観光業界への知識/経験</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">勤務条件</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">給与</span><span class="text-white">時給1,200円</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">交通費</span><span class="text-white">月34,000円まで</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">期間</span><span class="text-white">最低6ヶ月</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">勤務時間</span><span class="text-white">1日7h〜 / 9:00-20:00</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">出勤</span><span class="text-white">週2日〜（土日可）</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">リモート</span><span class="text-white">一部可（月水いずれか出社）</span></div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">身につくスキル</h4>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1.5 bg-copper/10 text-copper text-xs rounded-full border border-copper/20">大企業連携</span>
+                  <span class="px-3 py-1.5 bg-copper/10 text-copper text-xs rounded-full border border-copper/20">パートナー巻き込み</span>
+                  <span class="px-3 py-1.5 bg-copper/10 text-copper text-xs rounded-full border border-copper/20">リーダーシップ</span>
+                  <span class="px-3 py-1.5 bg-copper/10 text-copper text-xs rounded-full border border-copper/20">企画力</span>
+                  <span class="px-3 py-1.5 bg-copper/10 text-copper text-xs rounded-full border border-copper/20">事業立ち上げ</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleDetail(1)" id="toggle-btn-1" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">詳細を見る &#9660;</button>
+            <button onclick="openModal('entry-intern')" class="flex-1 py-3 bg-copper hover:bg-copper/80 text-white rounded-lg font-bold transition text-sm">応募する &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intern 2: SNSコンテンツクリエイター -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-blue-500/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full">SNSコンテンツクリエイター</span>
+            <span class="text-gray-600 text-xs">最低6ヶ月 ／ 週2日〜</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">SNSコンテンツクリエイター（新規事業分野）</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">一流アスリートと栄養士による新規事業（FAM事業）のマーケティング戦略立案から実行、効果測定までを担当。YouTube・Instagram向けコンテンツの企画・制作を通じてマーケティングスキルを磨けます。</p>
+
+          <div id="intern-detail-2" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-blue-400 mb-3">任せたい仕事</h4>
+                <ul class="text-gray-400 text-sm space-y-2 leading-relaxed">
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>スポーツ栄養市場のトレンド、競合サービス動向、ターゲット顧客インサイトの調査・分析</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>YouTube・Instagram向けコンテンツ企画・制作・編集</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>動画編集（カット、テロップ、色調補正）</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>サムネイル・タイトル・説明文の作成</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>Instagramコンテンツカレンダー（フィード、ストーリーズ、リール）の企画・管理</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>コミュニティエンゲージメント管理</li>
+                  <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>KPI設定と効果測定フレームワーク設計</li>
+                </ul>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">必須条件</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- SNSアカウント運用経験</li>
+                    <li>- 動画編集経験</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">求める人物像</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- 主体性がある</li>
+                    <li>- 積極的に取り組める</li>
+                    <li>- 成長意欲がある</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">勤務条件</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">給与</span><span class="text-white">時給1,200円</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">交通費</span><span class="text-white">月34,000円まで</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">期間</span><span class="text-white">最低6ヶ月</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">勤務時間</span><span class="text-white">1日4h〜 / 9:00-21:00</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">出勤</span><span class="text-white">週2日〜（土日可）</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">リモート</span><span class="text-white">一部可（月1日出社）</span></div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">身につくスキル</h4>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">マーケティング企画</span>
+                  <span class="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">ショートフォーム動画戦略・編集</span>
+                  <span class="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">コミュニティマネジメント</span>
+                  <span class="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">トレンド分析・応用</span>
+                  <span class="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">コンテンツ制作ワークフロー</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleDetail(2)" id="toggle-btn-2" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">詳細を見る &#9660;</button>
+            <button onclick="openModal('entry-intern')" class="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition text-sm">応募する &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intern 3: スポーツ×栄養ビジネスデベロップメント -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-green-500/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full">ビジネスデベロップメント</span>
+            <span class="text-gray-600 text-xs">最低12ヶ月 ／ 週2日〜</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">スポーツ×栄養ビジネスデベロップメント</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">超一流アスリートとのコラボ企画立案から栄養士ネットワークの構築まで。スポーツ・栄養領域の新規事業開発に参画し、0→1のビジネス立ち上げプロセスを一気通貫で経験できます。</p>
+
+          <div id="intern-detail-3" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-green-400 mb-3">任せたい仕事</h4>
+                <div class="space-y-4">
+                  <div>
+                    <p class="text-white text-sm font-medium mb-2">1. アスリートコラボレーション企画</p>
+                    <ul class="text-gray-400 text-sm space-y-1.5 ml-4 leading-relaxed">
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>野球、サッカー、バスケ、ボクシングなど既存ネットワークを活用したコラボレーション企画の立案・提案</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>スポーツ選手やマネジメント事務所との折衝・スケジュール調整</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>契約条件や出演内容の取りまとめ、進行管理</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="text-white text-sm font-medium mb-2">2. 栄養士／管理栄養士のアライアンス開拓</p>
+                    <ul class="text-gray-400 text-sm space-y-1.5 ml-4 leading-relaxed">
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>スポーツ栄養分野で活躍する栄養士リストアップ、リサーチ</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>初回アプローチ（メール・電話・SNS）、面談アポ設定</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>提携条件のすり合わせ、業務フロー設計</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="text-white text-sm font-medium mb-2">3. 大手食品メーカーとの共同プロジェクト支援</p>
+                    <ul class="text-gray-400 text-sm space-y-1.5 ml-4 leading-relaxed">
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>ミーティング資料・企画書作成（PowerPoint／Excel）</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>プロジェクト進捗管理、社内外ステークホルダーとの調整</li>
+                      <li class="flex items-start"><span class="text-gray-600 mr-2 mt-1.5 w-1.5 h-1.5 bg-gray-600 rounded-full inline-block flex-shrink-0"></span>パイロット提供会や試食イベントの運営サポート</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">必須条件</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- 自走力・主体性</li>
+                    <li>- スポーツ/栄養分野への強い関心</li>
+                    <li>- チーム内外との円滑なコミュニケーション力</li>
+                    <li>- マルチタスクで動ける力</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">歓迎条件</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- スポーツ選手や芸能関係者との折衝経験</li>
+                    <li>- SNSマーケティングやコンテンツ制作の実務経験</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">勤務条件</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">給与</span><span class="text-white">時給1,200円</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">交通費</span><span class="text-white">月34,000円まで</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">期間</span><span class="text-white">最低12ヶ月</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">勤務時間</span><span class="text-white">1日4h〜</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">出勤</span><span class="text-white">週2日〜（土日可）</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">リモート</span><span class="text-white">一部可（月水いずれか出社）</span></div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">身につくスキル</h4>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">0→1発想×実行力</span>
+                  <span class="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">ハンズオン交渉術</span>
+                  <span class="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">ストーリー構築力</span>
+                  <span class="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">人を巻き込む力</span>
+                  <span class="px-3 py-1.5 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">スタートアップマインドセット</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleDetail(3)" id="toggle-btn-3" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">詳細を見る &#9660;</button>
+            <button onclick="openModal('entry-intern')" class="flex-1 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-bold transition text-sm">応募する &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intern 4: 大企業変革プロジェクト -->
+      <div class="bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-purple-500/40 transition">
+        <div class="p-8">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-bold rounded-full">新規事業企画・パートナー企業開拓</span>
+            <span class="text-gray-600 text-xs">最低3ヶ月 ／ 週3日〜</span>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold mb-3">大企業変革プロジェクト（新規事業企画）</h3>
+          <p class="text-gray-400 text-sm mb-6 leading-relaxed">大企業と共創する新規事業プロジェクトの推進に参画。ビジネス開発、マーケティング、プロダクト開発、デザインの4職種から選択でき、事業企画からパートナー企業の開拓まで最前線で経験できます。</p>
+
+          <div id="intern-detail-4" class="hidden">
+            <div class="border-t border-gray-800 pt-6 mt-2 space-y-6">
+
+              <div>
+                <h4 class="text-sm font-bold text-purple-400 mb-3">選べる4つの職種</h4>
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="bg-gray-800/40 rounded-lg p-4">
+                    <p class="text-white text-sm font-medium mb-2">1. ビジネス開発（BizDev）</p>
+                    <ul class="text-gray-400 text-xs space-y-1 leading-relaxed">
+                      <li>市場調査・競合分析・仮説検証</li>
+                      <li>クライアント企業との打ち合わせ、提案資料作成</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-800/40 rounded-lg p-4">
+                    <p class="text-white text-sm font-medium mb-2">2. マーケティング</p>
+                    <ul class="text-gray-400 text-xs space-y-1 leading-relaxed">
+                      <li>デジタルマーケティング（SNS運用、コンテンツ制作、広告運用）</li>
+                      <li>ユーザーインタビュー実施・分析</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-800/40 rounded-lg p-4">
+                    <p class="text-white text-sm font-medium mb-2">3. プロダクト開発（エンジニア）</p>
+                    <ul class="text-gray-400 text-xs space-y-1 leading-relaxed">
+                      <li>MVP（Minimum Viable Product）の設計・開発</li>
+                      <li>ノーコード・ローコードツールを活用したプロトタイピング</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-800/40 rounded-lg p-4">
+                    <p class="text-white text-sm font-medium mb-2">4. デザイン（UX/UI）</p>
+                    <ul class="text-gray-400 text-xs space-y-1 leading-relaxed">
+                      <li>UXリサーチ・ユーザーフロー設計</li>
+                      <li>プロトタイピング（Figmaなど）</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">必須条件</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- コミュニケーション・対人関係スキル</li>
+                    <li>- 目標達成への意欲</li>
+                    <li>- プレゼン資料作成スキル</li>
+                    <li>- プロジェクトマネジメント力</li>
+                    <li>- 批判的思考力</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-white mb-3">求める人物像</h4>
+                  <ul class="text-gray-400 text-sm space-y-1">
+                    <li>- 積極的に取り組める</li>
+                    <li>- 責任感がある</li>
+                    <li>- コミュニケーション能力に長けている</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">勤務条件</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">給与</span><span class="text-white">時給1,200円</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">交通費</span><span class="text-white">月34,000円まで</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">期間</span><span class="text-white">最低3ヶ月</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">勤務時間</span><span class="text-white">1日5h〜 / 10:00-20:00</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">出勤</span><span class="text-white">週3日〜（土日可）</span></div>
+                  <div class="bg-gray-800/60 rounded-lg p-3"><span class="text-gray-500 block text-xs mb-1">リモート</span><span class="text-white">一部可（週1出社必須）</span></div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-bold text-white mb-3">身につくスキル</h4>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1.5 bg-purple-500/10 text-purple-400 text-xs rounded-full border border-purple-500/20">ロジカルシンキング</span>
+                  <span class="px-3 py-1.5 bg-purple-500/10 text-purple-400 text-xs rounded-full border border-purple-500/20">リーダーシップ・意思決定</span>
+                  <span class="px-3 py-1.5 bg-purple-500/10 text-purple-400 text-xs rounded-full border border-purple-500/20">プレゼン・交渉</span>
+                  <span class="px-3 py-1.5 bg-purple-500/10 text-purple-400 text-xs rounded-full border border-purple-500/20">ビジネススキル全般</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button onclick="toggleDetail(4)" id="toggle-btn-4" class="flex-1 py-3 border border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white rounded-lg font-bold transition text-sm">詳細を見る &#9660;</button>
+            <button onclick="openModal('entry-intern')" class="flex-1 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-bold transition text-sm">応募する &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Section 7: CTA -->
+<section id="cta" class="py-24 bg-concrete">
+  <div class="max-w-4xl mx-auto px-6 text-center fade-in">
+    <p class="text-2xl md:text-3xl lg:text-4xl font-bold leading-relaxed mb-8">
+      あなたがもし、<br>「こうした方がいいのに」という想いを持ち<br>それを実現するために<span class="text-copper">泥臭く動ける人</span>なら
+    </p>
+    <p class="text-xl md:text-2xl text-gray-300 mb-12">私たちと一緒に働きませんか？</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#jobs" class="inline-flex items-center justify-center px-8 py-4 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition text-lg">エントリーする <span class="ml-2">&rarr;</span></a>
+      <button onclick="openModal('chat')" class="inline-flex items-center justify-center px-8 py-4 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition text-lg">詳しく話を聞く</button>
+    </div>
+  </div>
+</section>
+
+<!-- Section: ブログ -->
+<section id="blog" class="py-24 bg-concrete">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <div class="inline-flex items-center mb-6">
+        <span class="w-1 h-8 bg-copper mr-4 inline-block"></span>
+        <h2 class="text-3xl md:text-4xl font-bold">Inside ARCHECO</h2>
+      </div>
+      <p class="text-gray-400 text-lg">社員インタビューや社風を伝える記事</p>
+    </div>
+
+    {featuredBlogs.length > 0 && (
+      <div class="mb-16 fade-in">
+        <h3 class="text-xl font-bold mb-6 flex items-center"><span class="w-1 h-6 bg-copper mr-3 inline-block"></span>注目の記事</h3>
+        <div class="grid md:grid-cols-3 gap-6">
+          {featuredBlogs.map((blog) => (
+            <a href={`/blog/${blog.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/50 transition">
+              {blog.eyecatch ? (
+                <img src={blog.eyecatch.url} alt={blog.title} class="w-full h-48 object-cover group-hover:scale-105 transition duration-500" />
+              ) : (
+                <div class="w-full h-48 bg-gray-800 flex items-center justify-center text-gray-600 text-4xl">&#x1f4dd;</div>
+              )}
+              <div class="p-6">
+                <span class="text-xs text-copper font-bold">{blog.category}</span>
+                <h4 class="text-lg font-bold mt-2 group-hover:text-copper transition">{blog.title}</h4>
+                {blog.description && <p class="text-gray-400 text-sm mt-2 line-clamp-2">{blog.description}</p>}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {latestBlogs.length > 0 && (
+      <div class="mb-12 fade-in">
+        <h3 class="text-xl font-bold mb-6 flex items-center"><span class="w-1 h-6 bg-blue-500 mr-3 inline-block"></span>最新記事</h3>
+        <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {latestBlogs.map((blog) => (
+            <a href={`/blog/${blog.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-blue-500/50 transition">
+              {blog.eyecatch ? (
+                <img src={blog.eyecatch.url} alt={blog.title} class="w-full h-32 object-cover group-hover:scale-105 transition duration-500" />
+              ) : (
+                <div class="w-full h-32 bg-gray-800 flex items-center justify-center text-gray-600 text-2xl">&#x1f4dd;</div>
+              )}
+              <div class="p-4">
+                <span class="text-xs text-blue-400 font-bold">{blog.category}</span>
+                <h4 class="text-sm font-bold mt-1 group-hover:text-blue-400 transition line-clamp-2">{blog.title}</h4>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div class="text-center fade-in">
+      <a href="/blog" class="inline-flex items-center justify-center px-8 py-4 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition text-lg">すべての記事を見る <span class="ml-2">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="border-t border-gray-800 py-12">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
+      <div>
+        <p class="text-2xl font-bold font-heading">ARCHECO</p>
+        <p class="text-gray-500 mt-1">HUMBLE ROOTS, MASSIVE SPARKS.</p>
+      </div>
+      <nav class="flex flex-wrap gap-8 text-gray-400">
+        <button onclick="openModal('company')" class="hover:text-copper transition">会社概要</button>
+        <a href="#jobs" class="hover:text-copper transition">募集要項</a>
+        <a href="#intern" class="hover:text-copper transition">インターン</a>
+        <a href="mailto:info@archeco.co.jp" class="hover:text-copper transition">お問い合わせ</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-6 mb-8">
+      <a href="https://archeco.co.jp" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-copper transition" title="Corporate Site">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A8.966 8.966 0 013 12c0-1.264.26-2.466.733-3.559"/></svg>
+      </a>
+      <a href="https://www.instagram.com/archeco_inc/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-copper transition" title="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.7 224.1 370.7 339 319.4 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1S3.8 127.9 2.1 163.8c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+      </a>
+      <a href="https://www.youtube.com/@ARCchannel-x8" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-copper transition" title="YouTube">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 576 512"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+      </a>
+    </div>
+    <p class="text-gray-600 text-sm">&copy; 2026 ARCHECO. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Career Entry Modal -->
+<div id="modal-entry-career" class="modal-overlay" onclick="if(event.target===this)closeModal('entry-career')">
+  <div class="modal-content p-8">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <span class="text-xs text-copper font-bold tracking-wider">中途採用</span>
+        <h3 class="text-2xl font-bold">エントリーフォーム</h3>
+      </div>
+      <button onclick="closeModal('entry-career')" class="text-gray-500 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <!--
+      Google Forms Integration (Career):
+      Replace 1FAIpQLSd9z9U8c_OnVWrLF4jP8JsJd0DwnbdhUwQsrjwyZ5ni-y3-Pw with your actual Google Form ID.
+      Replace each entry.XXXXXX with the actual field entry IDs.
+    -->
+    <form id="entry-form-career" action="https://docs.google.com/forms/d/e/1FAIpQLSd9z9U8c_OnVWrLF4jP8JsJd0DwnbdhUwQsrjwyZ5ni-y3-Pw/formResponse" method="POST" target="hidden-iframe-career" onsubmit="handleSubmit(event,'career')">
+      <div class="space-y-5">
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">氏名 <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.770063504" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">フリガナ <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.1782498565" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">メールアドレス <span class="text-red-500">*</span></label>
+          <input type="email" name="entry.532249595" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">電話番号</label>
+          <input type="tel" name="entry.1524084571" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">現在の職種/所属 <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.1123789246" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">志望動機・自己PR <span class="text-red-500">*</span></label>
+          <textarea name="entry.631571067" rows="4" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition resize-none"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="w-full mt-8 py-4 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold text-lg transition">エントリーを送信する</button>
+    </form>
+    <div id="entry-success-career" class="hidden text-center py-12">
+      <div class="text-copper mb-4"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <h4 class="text-2xl font-bold mb-2">送信完了</h4>
+      <p class="text-gray-400">エントリーありがとうございます。<br>内容を確認の上、担当者よりご連絡いたします。</p>
+      <button onclick="closeModal('entry-career')" class="mt-8 px-8 py-3 border border-gray-600 rounded-lg hover:border-copper transition">閉じる</button>
+    </div>
+  </div>
+</div>
+<iframe name="hidden-iframe-career" style="display:none;"></iframe>
+
+<!-- Intern Entry Modal -->
+<div id="modal-entry-intern" class="modal-overlay" onclick="if(event.target===this)closeModal('entry-intern')">
+  <div class="modal-content p-8">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <span class="text-xs text-blue-400 font-bold tracking-wider">インターン採用</span>
+        <h3 class="text-2xl font-bold">エントリーフォーム</h3>
+      </div>
+      <button onclick="closeModal('entry-intern')" class="text-gray-500 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <!--
+      Google Forms Integration (Intern):
+      Replace 1FAIpQLSfLfpUY5dE8jw-TVRoRWfa6YATBXd01hZ0qhBWG4o-x4SNA4Q with your actual Google Form ID.
+      Replace each entry.XXXXXX with the actual field entry IDs.
+    -->
+    <form id="entry-form-intern" action="https://docs.google.com/forms/d/e/1FAIpQLSfLfpUY5dE8jw-TVRoRWfa6YATBXd01hZ0qhBWG4o-x4SNA4Q/formResponse" method="POST" target="hidden-iframe-intern" onsubmit="handleSubmit(event,'intern')">
+      <div class="space-y-5">
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">氏名 <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.2097925776" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">フリガナ <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.379528697" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">メールアドレス <span class="text-red-500">*</span></label>
+          <input type="email" name="entry.1539104745" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">電話番号</label>
+          <input type="tel" name="entry.339098800" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">学校名・学年 <span class="text-red-500">*</span></label>
+          <input type="text" name="entry.1725592854" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">希望プロジェクト <span class="text-red-500">*</span></label>
+          <select name="entry.1284709668" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition">
+            <option value="">選択してください</option>
+            <option value="訪日外国人観光体験革新プロジェクト">訪日外国人観光体験革新プロジェクト</option>
+            <option value="SNSコンテンツクリエイター">SNSコンテンツクリエイター（新規事業分野）</option>
+            <option value="スポーツ×栄養ビジネスデベロップメント">スポーツ×栄養ビジネスデベロップメント</option>
+            <option value="大企業変革プロジェクト">大企業変革プロジェクト（新規事業企画）</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">志望動機・自己PR <span class="text-red-500">*</span></label>
+          <textarea name="entry.300690951" rows="4" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-copper focus:outline-none transition resize-none"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="w-full mt-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-lg text-white font-bold text-lg transition">エントリーを送信する</button>
+    </form>
+    <div id="entry-success-intern" class="hidden text-center py-12">
+      <div class="text-copper mb-4"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <h4 class="text-2xl font-bold mb-2">送信完了</h4>
+      <p class="text-gray-400">エントリーありがとうございます。<br>内容を確認の上、担当者よりご連絡いたします。</p>
+      <button onclick="closeModal('entry-intern')" class="mt-8 px-8 py-3 border border-gray-600 rounded-lg hover:border-copper transition">閉じる</button>
+    </div>
+  </div>
+</div>
+<iframe name="hidden-iframe-intern" style="display:none;"></iframe>
+
+<!-- Chat Modal -->
+<div id="modal-chat" class="modal-overlay" onclick="if(event.target===this)closeModal('chat')">
+  <div class="modal-content p-8">
+    <div class="flex justify-between items-center mb-8">
+      <h3 class="text-2xl font-bold">ARCHECOについて詳しく聞く</h3>
+      <button onclick="closeModal('chat')" class="text-gray-500 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <div class="bg-gray-800/50 rounded-xl p-6 mb-6">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-copper rounded-full flex items-center justify-center font-bold text-sm">A</div>
+        <p class="text-gray-300">NotebookLMを使ってARCHECOについて質問できます</p>
+      </div>
+      <p class="text-gray-400 text-sm mb-6">AIがARCHECOの採用情報や会社の文化について、あなたの疑問にお答えします。</p>
+      <!-- Replace with your actual NotebookLM notebook URL -->
+      <a href="https://notebooklm.google.com/notebook/117143b2-5bc9-45f3-9a84-cdb1c44d2c6d?authuser=1" target="_blank" rel="noopener noreferrer" class="block w-full text-center py-4 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition text-lg">NotebookLMで質問する &rarr;</a>
+    </div>
+    <div class="text-center text-gray-500 text-sm">
+      またはメールでお問い合わせ: <a href="mailto:info@archeco.co.jp" class="text-copper hover:underline">info@archeco.co.jp</a>
+    </div>
+  </div>
+</div>
+
+<!-- Company Modal -->
+<div id="modal-company" class="modal-overlay" onclick="if(event.target===this)closeModal('company')">
+  <div class="modal-content p-8">
+    <div class="flex justify-between items-center mb-8">
+      <h3 class="text-2xl font-bold">会社概要</h3>
+      <button onclick="closeModal('company')" class="text-gray-500 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <table class="w-full text-left">
+      <tbody class="divide-y divide-gray-800">
+        <tr><td class="py-4 text-gray-400 w-32 align-top">商号</td><td class="py-4">株式会社ARCHECO（アルチェコ）</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">代表者</td><td class="py-4">代表取締役 熊澤 宏起</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">設立</td><td class="py-4">2014年7月</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">資本金</td><td class="py-4">3,000,000円</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">所在地</td><td class="py-4">〒150-0001<br>東京都渋谷区神宮前1-15-4 Barbizon76 3F</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">アクセス</td><td class="py-4">JR原宿駅 竹下口 徒歩2分<br>東京メトロ 明治神宮前駅 3番出口 徒歩3分</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">事業内容</td><td class="py-4">日本型スタートアップスタジオとして、大企業の新規事業創出・サービス開発を支援。企画・調査・検証・改善を一貫して実施し、企業との協業による事業開発を推進</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">従業員数</td><td class="py-4">11〜30名</td></tr>
+        <tr><td class="py-4 text-gray-400 align-top">URL</td><td class="py-4"><a href="https://archeco.co.jp/" target="_blank" class="text-copper hover:underline">https://archeco.co.jp/</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// Toggle intern detail sections
+function toggleDetail(num) {
+  var detail = document.getElementById('intern-detail-' + num);
+  var btn = document.getElementById('toggle-btn-' + num);
+  if (detail.classList.contains('hidden')) {
+    detail.classList.remove('hidden');
+    btn.innerHTML = '閉じる \u25B2';
+    btn.classList.remove('text-gray-400', 'border-gray-700');
+    btn.classList.add('text-white', 'border-gray-500');
+  } else {
+    detail.classList.add('hidden');
+    btn.innerHTML = '\u8A73\u7D30\u3092\u898B\u308B \u25BC';
+    btn.classList.add('text-gray-400', 'border-gray-700');
+    btn.classList.remove('text-white', 'border-gray-500');
+  }
+}
+
+function toggleCareerDetail(num) {
+  var detail = document.getElementById('career-detail-' + num);
+  var btn = document.getElementById('career-toggle-btn-' + num);
+  if (detail.classList.contains('hidden')) {
+    detail.classList.remove('hidden');
+    btn.innerHTML = '閉じる \u25B2';
+    btn.classList.remove('text-gray-400', 'border-gray-700');
+    btn.classList.add('text-white', 'border-gray-500');
+  } else {
+    detail.classList.add('hidden');
+    btn.innerHTML = '\u8A73\u7D30\u3092\u898B\u308B \u25BC';
+    btn.classList.add('text-gray-400', 'border-gray-700');
+    btn.classList.remove('text-white', 'border-gray-500');
+  }
+}
+
+function switchRecruitTab(tab) {
+  var careerContent = document.getElementById('recruit-career');
+  var internContent = document.getElementById('recruit-intern-tab');
+  var careerTab = document.getElementById('tab-career');
+  var internTab = document.getElementById('tab-intern');
+  if (tab === 'career') {
+    careerContent.classList.remove('hidden');
+    internContent.classList.add('hidden');
+    careerTab.classList.add('border-copper', 'text-copper');
+    careerTab.classList.remove('border-transparent', 'text-gray-500');
+    internTab.classList.add('border-transparent', 'text-gray-500');
+    internTab.classList.remove('border-blue-500', 'text-blue-400');
+  } else {
+    internContent.classList.remove('hidden');
+    careerContent.classList.add('hidden');
+    internTab.classList.add('border-blue-500', 'text-blue-400');
+    internTab.classList.remove('border-transparent', 'text-gray-500');
+    careerTab.classList.add('border-transparent', 'text-gray-500');
+    careerTab.classList.remove('border-copper', 'text-copper');
+  }
+}
+
+// Modal controls
+function openModal(name) {
+  document.getElementById('modal-' + name).classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(name) {
+  document.getElementById('modal-' + name).classList.remove('active');
+  document.body.style.overflow = '';
+  // Reset entry forms if closing entry modals
+  if (name === 'entry-career' || name === 'entry-intern') {
+    var type = name.replace('entry-', '');
+    document.getElementById('entry-form-' + type).classList.remove('hidden');
+    document.getElementById('entry-success-' + type).classList.add('hidden');
+    document.getElementById('entry-form-' + type).reset();
+  }
+}
+
+// Form submission handler
+function handleSubmit(e, type) {
+  setTimeout(function() {
+    document.getElementById('entry-form-' + type).classList.add('hidden');
+    document.getElementById('entry-success-' + type).classList.remove('hidden');
+  }, 500);
+}
+
+// Scroll animations
+const observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(function(el) {
+  observer.observe(el);
+});
+
+// Close modals with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    ['entry-career', 'entry-intern', 'chat', 'company'].forEach(function(name) {
+      closeModal(name);
+    });
+  }
+});
+</script>
+</body>
+</html>
