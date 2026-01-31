@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #0a0a0a;
+  color: #e0e0e0;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #2a2a2a;
+  border-top-color: #c9917a;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Blog preview styles */
+.blog-preview h2 {
+  @apply text-xl font-bold mt-8 mb-4 text-white border-b border-dark-border pb-2;
+}
+.blog-preview h3 {
+  @apply text-lg font-semibold mt-6 mb-3 text-white;
+}
+.blog-preview p {
+  @apply mb-4 leading-relaxed;
+}
+.blog-preview ul,
+.blog-preview ol {
+  @apply mb-4 pl-6;
+}
+.blog-preview li {
+  @apply mb-2;
+}
+.blog-preview blockquote {
+  @apply border-l-4 border-primary pl-4 my-4 italic text-dark-muted;
+}
+.blog-preview figure {
+  @apply my-6;
+}
+.blog-preview figure img {
+  @apply rounded-lg w-full;
+}
+.blog-preview figcaption {
+  @apply text-sm text-dark-muted mt-2 text-center;
+}
