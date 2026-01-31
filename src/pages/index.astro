@@ -1,5 +1,5 @@
 ---
-import { getBlogs } from '../lib/microcms';
+import { getBlogs, optimizeImage } from '../lib/microcms';
 
 let featuredBlogs = [];
 let latestBlogs = [];
@@ -1159,7 +1159,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
           {featuredBlogs.map((blog) => (
             <a href={`/blog/${blog.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/50 transition">
               {blog.eyecatch ? (
-                <img src={blog.eyecatch.url} alt={blog.title} class="w-full h-48 object-cover group-hover:scale-105 transition duration-500" />
+                <img src={optimizeImage(blog.eyecatch.url, { w: 640, h: 384 })} alt={blog.title} class="w-full h-48 object-cover group-hover:scale-105 transition duration-500" />
               ) : (
                 <div class="w-full h-48 bg-gray-800 flex items-center justify-center"><span class="text-gray-600 text-4xl">📝</span></div>
               )}
@@ -1181,7 +1181,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
           {latestBlogs.map((blog) => (
             <a href={`/blog/${blog.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-blue-500/50 transition">
               {blog.eyecatch ? (
-                <img src={blog.eyecatch.url} alt={blog.title} class="w-full h-32 object-cover group-hover:scale-105 transition duration-500" />
+                <img src={optimizeImage(blog.eyecatch.url, { w: 480, h: 256 })} alt={blog.title} class="w-full h-32 object-cover group-hover:scale-105 transition duration-500" />
               ) : (
                 <div class="w-full h-32 bg-gray-800 flex items-center justify-center"><span class="text-gray-600 text-2xl">📝</span></div>
               )}

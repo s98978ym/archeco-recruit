@@ -1,5 +1,5 @@
 ---
-import { getBlogs, getBlogDetail } from '../../lib/microcms';
+import { getBlogs, getBlogDetail, optimizeImage } from '../../lib/microcms';
 import type { Blog } from '../../lib/microcms';
 
 export async function getStaticPaths() {
@@ -44,7 +44,7 @@ const publishedDate = new Date(blog.publishedAt).toLocaleDateString('ja-JP', {
 <meta name="theme-color" content="#0a0a0a">
 <meta property="og:title" content={`${blog.title} | Inside ARCHECO`}>
 <meta property="og:description" content={blog.description || blog.title}>
-{blog.eyecatch && <meta property="og:image" content={blog.eyecatch.url} />}
+{blog.eyecatch && <meta property="og:image" content={optimizeImage(blog.eyecatch.url, { w: 1200, h: 630, fm: 'jpg' })} />}
 <meta property="og:type" content="article">
 <script is:inline src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,7 +114,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
   <article class="max-w-3xl mx-auto px-6 py-16">
     <!-- Eyecatch -->
     {blog.eyecatch && (
-      <img src={blog.eyecatch.url} alt={blog.title} class="w-full h-64 md:h-96 object-cover rounded-xl mb-8" />
+      <img src={optimizeImage(blog.eyecatch.url, { w: 1200, h: 630 })} alt={blog.title} class="w-full h-64 md:h-96 object-cover rounded-xl mb-8" />
     )}
 
     <!-- Header -->
@@ -163,7 +163,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
           {relatedBlogs.map((related) => (
             <a href={`/blog/${related.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/50 transition">
               {related.eyecatch ? (
-                <img src={related.eyecatch.url} alt={related.title} class="w-full h-32 object-cover group-hover:scale-105 transition duration-500" loading="lazy" />
+                <img src={optimizeImage(related.eyecatch.url, { w: 480, h: 256 })} alt={related.title} class="w-full h-32 object-cover group-hover:scale-105 transition duration-500" loading="lazy" />
               ) : (
                 <div class="w-full h-32 bg-gray-800 flex items-center justify-center"><span class="text-gray-600 text-2xl">📝</span></div>
               )}

@@ -33,3 +33,25 @@ export async function getBlogs(queries?: Record<string, unknown>) {
 export async function getBlogDetail(contentId: string) {
   return await client.get<Blog>({ endpoint: 'blogs', contentId });
 }
+
+/**
+ * microCMS (imgix) の画像URLに最適化パラメータを付与する
+ * - リサイズ（幅・高さ指定）
+ * - WebP形式への変換
+ * - 品質調整
+ * - fit=crop でアスペクト比を保ちつつトリミング
+ */
+export function optimizeImage(
+  url: string,
+  options: { w?: number; h?: number; q?: number; fm?: string; fit?: string } = {}
+): string {
+  const { w, h, q = 80, fm = 'webp', fit = 'crop' } = options;
+  const params = new URLSearchParams();
+  if (w) params.set('w', String(w));
+  if (h) params.set('h', String(h));
+  params.set('fm', fm);
+  params.set('q', String(q));
+  params.set('fit', fit);
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}${params.toString()}`;
+}
