@@ -283,12 +283,12 @@ try {
 }
 </script>
 
-<script src="https://cdn.tailwindcss.com"></script>
+<script is:inline src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="//docs.google.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script>
+<script is:inline>
 tailwind.config = {
   theme: {
     extend: {
@@ -304,7 +304,7 @@ tailwind.config = {
   }
 }
 </script>
-<style>
+<style is:inline>
 html { scroll-behavior: smooth; }
 body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; }
 h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
@@ -1394,7 +1394,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
   </div>
 </div>
 
-<script>
+<script is:inline>
 // Toggle intern detail sections
 function toggleDetail(num) {
   var detail = document.getElementById('intern-detail-' + num);
