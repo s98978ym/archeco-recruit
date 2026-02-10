@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://s98978ym.github.io/archeco-recruit/sitemap.xml
+Sitemap: https://recruit.int-incubation.com/sitemap.xml
