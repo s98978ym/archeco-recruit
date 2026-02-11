@@ -22,7 +22,7 @@ try {
 <meta name="keywords" content="ARCHECO,アルチェコ,採用,求人,インターン,中途採用,事業開発,UXデザイナー,スタートアップ,原宿,新規事業,長期インターン">
 <meta name="author" content="株式会社ARCHECO">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://recruit.int-incubation.com/">
+<link rel="canonical" href="https://www.int-incubation.com/careers/">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="format-detection" content="telephone=no">
 
@@ -30,10 +30,10 @@ try {
 <meta property="og:type" content="website">
 <meta property="og:title" content="ARCHECO 採用情報 | インターン・中途採用募集">
 <meta property="og:description" content="東京・原宿から世界へインパクトを生み出すスタートアップスタジオで、自ら考え動ける仲間を募集中。事業開発・UXデザイナー・コンサルタントの中途採用、インターン4職種募集。">
-<meta property="og:url" content="https://recruit.int-incubation.com/">
+<meta property="og:url" content="https://www.int-incubation.com/careers/">
 <meta property="og:site_name" content="ARCHECO">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://recruit.int-incubation.com/og-image.png">
+<meta property="og:image" content="https://www.int-incubation.com/careers/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
@@ -41,7 +41,7 @@ try {
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ARCHECO 採用情報 | インターン・中途採用募集">
 <meta name="twitter:description" content="東京・原宿から世界へインパクトを生み出すスタートアップスタジオで、自ら考え動ける仲間を募集中。">
-<meta name="twitter:image" content="https://recruit.int-incubation.com/og-image.png">
+<meta name="twitter:image" content="https://www.int-incubation.com/careers/og-image.png">
 
 <!-- Structured Data: Organization -->
 <script type="application/ld+json">
@@ -81,7 +81,7 @@ try {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "ARCHECO 採用サイト",
-  "url": "https://recruit.int-incubation.com/"
+  "url": "https://www.int-incubation.com/careers/"
 }
 </script>
 
@@ -278,7 +278,7 @@ try {
   "@type": "BreadcrumbList",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "ARCHECO", "item": "https://archeco.co.jp/" },
-    { "@type": "ListItem", "position": 2, "name": "採用情報", "item": "https://recruit.int-incubation.com/" }
+    { "@type": "ListItem", "position": 2, "name": "採用情報", "item": "https://www.int-incubation.com/careers/" }
   ]
 }
 </script>
@@ -1157,7 +1157,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
         <h3 class="text-xl font-bold mb-6 flex items-center"><span class="w-1 h-6 bg-copper mr-3 inline-block"></span>注目の記事</h3>
         <div class="grid md:grid-cols-3 gap-6">
           {featuredBlogs.map((blog) => (
-            <a href={`/blog/${blog.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/50 transition">
+            <a href={`/careers/blog/${blog.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/50 transition">
               {blog.eyecatch ? (
                 <img src={blog.eyecatch.url} alt={blog.title} class="w-full h-48 object-cover group-hover:scale-105 transition duration-500" />
               ) : (
@@ -1179,7 +1179,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
         <h3 class="text-xl font-bold mb-6 flex items-center"><span class="w-1 h-6 bg-blue-500 mr-3 inline-block"></span>最新記事</h3>
         <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
           {latestBlogs.map((blog) => (
-            <a href={`/blog/${blog.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-blue-500/50 transition">
+            <a href={`/careers/blog/${blog.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-blue-500/50 transition">
               {blog.eyecatch ? (
                 <img src={blog.eyecatch.url} alt={blog.title} class="w-full h-32 object-cover group-hover:scale-105 transition duration-500" />
               ) : (
@@ -1196,7 +1196,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
     )}
 
     <div class="text-center fade-in">
-      <a href="/blog" class="inline-flex items-center justify-center px-8 py-4 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition text-lg">すべての記事を見る <span class="ml-2">&rarr;</span></a>
+      <a href="/careers/blog" class="inline-flex items-center justify-center px-8 py-4 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition text-lg">すべての記事を見る <span class="ml-2">&rarr;</span></a>
     </div>
   </div>
 </section>

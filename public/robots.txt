@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://recruit.int-incubation.com/sitemap.xml
+Sitemap: https://www.int-incubation.com/careers/sitemap.xml

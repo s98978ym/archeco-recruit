@@ -16,7 +16,7 @@ let blog: Blog;
 try {
   blog = await getBlogDetail(slug as string);
 } catch (e) {
-  return Astro.redirect('/blog');
+  return Astro.redirect('/careers/blog');
 }
 
 // Get related blogs (same category)
@@ -102,10 +102,10 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
 <!-- Header -->
 <header class="fixed top-0 w-full z-50 bg-dark/80 backdrop-blur-md border-b border-gray-800/50">
   <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-    <a href="/" class="text-xl font-bold font-heading tracking-tight">ARCHECO</a>
+    <a href="/careers" class="text-xl font-bold font-heading tracking-tight">ARCHECO</a>
     <nav class="flex items-center gap-6">
-      <a href="/" class="text-gray-400 hover:text-copper transition text-sm">採用トップ</a>
-      <a href="/blog" class="text-copper font-bold text-sm">ブログ</a>
+      <a href="/careers" class="text-gray-400 hover:text-copper transition text-sm">採用トップ</a>
+      <a href="/careers/blog" class="text-copper font-bold text-sm">ブログ</a>
     </nav>
   </div>
 </header>
@@ -150,8 +150,8 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
       <h3 class="text-xl font-bold mb-3">ARCHECOで働くことに興味がありますか？</h3>
       <p class="text-gray-400 mb-6">まずはカジュアルにお話ししましょう</p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/#jobs" class="inline-flex items-center justify-center px-6 py-3 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition">募集要項を見る &rarr;</a>
-        <a href="/blog" class="inline-flex items-center justify-center px-6 py-3 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition">他の記事を読む</a>
+        <a href="/careers#jobs" class="inline-flex items-center justify-center px-6 py-3 bg-copper hover:bg-copper/80 rounded-lg text-white font-bold transition">募集要項を見る &rarr;</a>
+        <a href="/careers/blog" class="inline-flex items-center justify-center px-6 py-3 border border-gray-600 hover:border-copper hover:text-copper rounded-lg text-white font-medium transition">他の記事を読む</a>
       </div>
     </div>
 
@@ -161,7 +161,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
         <h3 class="text-xl font-bold mb-6 flex items-center"><span class="w-1 h-6 bg-copper mr-3 inline-block"></span>関連記事</h3>
         <div class="grid sm:grid-cols-3 gap-6">
           {relatedBlogs.map((related) => (
-            <a href={`/blog/${related.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/50 transition">
+            <a href={`/careers/blog/${related.id}`} class="group bg-gray-900/70 border border-gray-800 rounded-xl overflow-hidden hover:border-copper/50 transition">
               {related.eyecatch ? (
                 <img src={related.eyecatch.url} alt={related.title} class="w-full h-32 object-cover group-hover:scale-105 transition duration-500" loading="lazy" />
               ) : (
@@ -184,12 +184,12 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
   <div class="max-w-6xl mx-auto px-6">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-8">
       <div>
-        <a href="/" class="text-2xl font-bold font-heading">ARCHECO</a>
+        <a href="/careers" class="text-2xl font-bold font-heading">ARCHECO</a>
         <p class="text-gray-500 mt-1">HUMBLE ROOTS, MASSIVE SPARKS.</p>
       </div>
       <nav class="flex flex-wrap gap-8 text-gray-400">
-        <a href="/" class="hover:text-copper transition">採用トップ</a>
-        <a href="/blog" class="hover:text-copper transition">ブログ</a>
+        <a href="/careers" class="hover:text-copper transition">採用トップ</a>
+        <a href="/careers/blog" class="hover:text-copper transition">ブログ</a>
         <a href="mailto:info@archeco.co.jp" class="hover:text-copper transition">お問い合わせ</a>
       </nav>
     </div>

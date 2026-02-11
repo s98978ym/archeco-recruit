@@ -4,5 +4,5 @@ import tailwind from '@astrojs/tailwind';
 export default defineConfig({
   integrations: [tailwind()],
   output: 'static',
-  site: 'https://recruit.int-incubation.com',
-});
+  site: 'https://www.int-incubation.com',
+  base: '/careers',});
