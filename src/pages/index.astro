@@ -1469,6 +1469,36 @@ function closeModal(name) {
 
 // Form submission handler
 function handleSubmit(e, type) {
+  // Collect form data for Slack notification
+  var form = document.getElementById('entry-form-' + type);
+  var fields = [];
+  if (type === 'career') {
+    fields = [
+      { label: '氏名', value: form.querySelector('[name="entry.770063504"]').value },
+      { label: 'フリガナ', value: form.querySelector('[name="entry.1782498565"]').value },
+      { label: 'メールアドレス', value: form.querySelector('[name="entry.532249595"]').value },
+      { label: '電話番号', value: form.querySelector('[name="entry.1524084571"]').value },
+      { label: '現在の職種/所属', value: form.querySelector('[name="entry.1123789246"]').value },
+      { label: '志望動機・自己PR', value: form.querySelector('[name="entry.631571067"]').value },
+    ];
+  } else {
+    fields = [
+      { label: '氏名', value: form.querySelector('[name="entry.2097925776"]').value },
+      { label: 'フリガナ', value: form.querySelector('[name="entry.379528697"]').value },
+      { label: 'メールアドレス', value: form.querySelector('[name="entry.1539104745"]').value },
+      { label: '電話番号', value: form.querySelector('[name="entry.339098800"]').value },
+      { label: '学校名・学年', value: form.querySelector('[name="entry.1725592854"]').value },
+      { label: '希望プロジェクト', value: form.querySelector('[name="entry.1284709668"]').value },
+      { label: '志望動機・自己PR', value: form.querySelector('[name="entry.300690951"]').value },
+    ];
+  }
+  // Send Slack notification (fire-and-forget, doesn't block form submission)
+  fetch('/api/notify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: type, fields: fields }),
+  }).catch(function() { /* Slack notification failure should not affect user experience */ });
+
   setTimeout(function() {
     document.getElementById('entry-form-' + type).classList.add('hidden');
     document.getElementById('entry-success-' + type).classList.remove('hidden');
